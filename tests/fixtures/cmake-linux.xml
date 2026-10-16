@@ -1,0 +1,30 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>qt.tools.cmake</Name>
+  <DisplayName>CMake 3.30.5</DisplayName>
+  <Description>CMake tools 3.30.5</Description>
+  <Version>3.30.5-202502251255</Version>
+  <ReleaseDate>2025-02-25</ReleaseDate>
+  <Dependencies>qt.tools.qtcreator</Dependencies>
+  <Script>installscript.qs</Script>
+  <DownloadableArchives>linux64_x86_cmake_tools.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="39595099" OS="Any" UncompressedSize="153311592"/>
+  <UserInterfaces>licensedialog.ui</UserInterfaces>
+  <Translations>de.qm,ar.qm,es.qm,fr.qm,ru.qm,pt.qm,ja.qm</Translations>
+  <Licenses>
+   <License file="Copyright.txt" name="CMake License Agreement"/>
+  </Licenses>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/Tools/CMake</Argument>
+    <Argument>linux64_x86_cmake_tools.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>6fc5e5c6fd05e90c263e9e38b8c59fa6f292dc16</SHA1>
+ </PackageUpdate>
+ <SHA1>436d8b8a8d6c9f2efbc7d7558d06b92abe9f7c06</SHA1>
+ <MetadataName>2025-02-25-1256_meta.7z</MetadataName>
+</Updates>

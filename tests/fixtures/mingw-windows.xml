@@ -1,0 +1,21 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>qt.tools.win64_mingw1310</Name>
+  <DisplayName>MinGW 13.1.0 64-bit</DisplayName>
+  <Description>MinGW-builds 13.1.0 64-bit toolchain</Description>
+  <Version>13.1.0-202407240918</Version>
+  <ReleaseDate>2024-07-24</ReleaseDate>
+  <Dependencies>qt.tools.qtcreator</Dependencies>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <SortingPriority>910</SortingPriority>
+  <DownloadableArchives>mingw1310.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="112089180" OS="Any" UncompressedSize="649080077"/>
+  <SHA1>8b59fc610e4bbd584bbd0ebc53f6c7fa95b5a9e4</SHA1>
+ </PackageUpdate>
+ <SHA1>ca1c3f9f38e62fe63fad5f5e0da6b7545a5b20c3</SHA1>
+ <MetadataName>2024-07-24-0921_meta.7z</MetadataName>
+</Updates>

@@ -1,0 +1,69 @@
+{
+  "source": "https://mirrors.cernet.edu.cn/list/qt",
+  "data_source": "https://codeload.github.com/mirrorz-org/mirrorz-json-legacy/tar.gz/refs/heads/master",
+  "config_source": "https://raw.githubusercontent.com/mirrorz-org/mirrorz-config/master/config/mirrors.cernet.edu.cn.json",
+  "fetched_at": "2026-10-16T12:25:05.031335+00:00",
+  "missing_sites": [
+    "bjtu",
+    "bupt",
+    "byrio",
+    "cqupt",
+    "iscas",
+    "neu",
+    "neusoft",
+    "njupt",
+    "ynuosa"
+  ],
+  "mirrors": [
+    {
+      "country": "China",
+      "operator": "教育网联合镜像站",
+      "url": "https://mirrors.cernet.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "重庆大学开源软件镜像站",
+      "url": "https://mirrors.cqu.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "河南省教科网开源软件镜像站",
+      "url": "https://mirrors.ha.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "清华大学开源软件镜像站",
+      "url": "https://mirrors.tuna.tsinghua.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "南京大学开源镜像站",
+      "url": "https://mirror.nju.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "南阳理工学院开源软件镜像站",
+      "url": "https://mirror.nyist.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "SJTUG 思源镜像站",
+      "url": "https://mirror.sjtu.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "中山大学开源软件镜像站",
+      "url": "https://mirror.sysu.edu.cn/qt/"
+    },
+    {
+      "country": "China",
+      "operator": "中国科学技术大学开源软件镜像",
+      "url": "https://mirrors.ustc.edu.cn/qtproject/"
+    },
+    {
+      "country": "China",
+      "operator": "浙江大学开源软件镜像站",
+      "url": "https://mirrors.zju.edu.cn/qt/"
+    }
+  ]
+}

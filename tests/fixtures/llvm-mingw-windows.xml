@@ -1,0 +1,27 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>qt.tools.win64_llvm_mingw2217</Name>
+  <DisplayName>LLVM-MinGW 22.1.7 64-bit</DisplayName>
+  <Description>LLVM-MinGW-builds 22.1.7 64-bit toolchain</Description>
+  <Version>22.1.7-202608200704</Version>
+  <ReleaseDate>2026-08-20</ReleaseDate>
+  <Dependencies>qt.tools.qtcreator</Dependencies>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <SortingPriority>2217</SortingPriority>
+  <DownloadableArchives>llvm_mingw2217.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="104242496" OS="Any" UncompressedSize="739104549"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/Tools/llvm-mingw2217_64</Argument>
+    <Argument>llvm_mingw2217.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>bd6d282785ab6ba3e10e18bf14c2bb70b454d006</SHA1>
+ </PackageUpdate>
+ <SHA1>c388a01d3f067dfac60466d9f01d762d53cdba17</SHA1>
+ <MetadataName>2026-08-20-0706_meta.7z</MetadataName>
+</Updates>

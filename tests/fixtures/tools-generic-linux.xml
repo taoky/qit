@@ -1,0 +1,34 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>qt</Name>
+  <DisplayName>Qt</DisplayName>
+  <Description>See the "Product Information" {external-link}='https://doc.qt.io/qt-6/qt-framework-product-information.html' page in the Qt documentation for more details.</Description>
+  <Version>1.0.22</Version>
+  <ReleaseDate>2026-09-03</ReleaseDate>
+  <Checkable>false</Checkable>
+  <TreeName moveChildren="true">qtfordevelopment.qt</TreeName>
+  <SortingPriority>1000</SortingPriority>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>783a36e640784bc963d0263a472d6eab2a455326</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.tools</Name>
+  <DisplayName>Build Tools</DisplayName>
+  <Description>Additional development and environment management tools.</Description>
+  <Version>1.2.6-0-202609031112</Version>
+  <ReleaseDate>2026-09-03</ReleaseDate>
+  <Script>installscript.qs</Script>
+  <Essential>true</Essential>
+  <TreeName moveChildren="true">qtfordevelopment.qt.tools</TreeName>
+  <SortingPriority>40</SortingPriority>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>7dd8b83e907e6160024e99f16d806545d4200a5d</SHA1>
+ </PackageUpdate>
+ <SHA1>cd4cf047aa19925aa839ea4a913856433575fcd1</SHA1>
+ <MetadataName>2026-09-03-1112_meta.7z</MetadataName>
+</Updates>

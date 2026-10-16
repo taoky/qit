@@ -1,0 +1,1033 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qt3d</Name>
+  <DisplayName>Qt 3D</DisplayName>
+  <Description>Qt 3D Prebuilt Components for Qt 6.8.1. Qt 3D provides functionality for near-realtime simulation systems with support for 2D and 3D rendering in both Qt C++ and Qt Quick applications.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qt3d, qt.qt6.681.examples.qt3d</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>9f0346a127dbee5d93438535f005b0fe24379637</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qt3d.android_arm64_v8a</Name>
+  <DisplayName>Qt 3D for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qt3d, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qt3d-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="2273132" OS="Any" UncompressedSize="16446876"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qt3d-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>b00fff2344399500eed15121ff06210c6b2a751c</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qt5compat</Name>
+  <DisplayName>Qt 5 Compatibility Module</DisplayName>
+  <Description>Qt 5 Compatibility Module Prebuilt Components for Qt 6.8.1. Qt 5 Compatibility Module allows to continue using some dedicated functionality which has been removed in Qt 6.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Dependencies>qt.qt6.681.doc.qt5compat, qt.qt6.681.examples.qt5compat, qt.qt6.681.addons.qtshadertools</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>7fe904ecfda3df70a7844fed9f0c19ce355e3d42</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qt5compat.android_arm64_v8a</Name>
+  <DisplayName>Qt 5 Compatibility Module for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qt5compat, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <SortingPriority/>
+  <DownloadableArchives>qt5compat-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="726357" OS="Any" UncompressedSize="2879948"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qt5compat-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>1efccb78aa69f029db2d47c199dc88db94585124</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtcharts</Name>
+  <DisplayName>Qt Charts</DisplayName>
+  <Description>The Qt Charts API lets you easily create interactive and dynamic 2D charts using C++ and/or Qt Quick.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtcharts, qt.qt6.681.examples.qtcharts</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>572953ec1d732d164b368b14963f54c528d73b16</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtcharts.android_arm64_v8a</Name>
+  <DisplayName>Qt Charts for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtcharts, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtcharts-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="663369" OS="Any" UncompressedSize="5164944"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtcharts-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>c2e37b2244165115fe3bbc20617c4e5242786373</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtconnectivity</Name>
+  <DisplayName>Qt Connectivity</DisplayName>
+  <Description>This component includes two Qt modules. The two modules provide access to Bluetooth and NFC hardware.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtbluetooth, qt.qt6.681.doc.qtnfc, qt.qt6.681.examples.qtconnectivity</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>6852bd68892806bd3964bb4772c89ab237a2abb3</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtconnectivity.android_arm64_v8a</Name>
+  <DisplayName>Qt Connectivity for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtconnectivity, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtconnectivity-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="272438" OS="Any" UncompressedSize="1321650"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtconnectivity-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>5fee585c171fdb097fbeb4efe0593fd4d1d90e20</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtdatavis3d</Name>
+  <DisplayName>Qt Data Visualization</DisplayName>
+  <Description>Qt Data Visualization is a module which provides a way to visualize data in 3D. There are C++ classes and QML types for displaying bar graphs, scatter graphs, surface graphs and ways of manipulating the 3D scene. In addition, the graphs are fully customizable with different themes.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtdatavis3d, qt.qt6.681.examples.qtdatavis3d</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>fb8c9e0ba3d4899c5c39217c9c135cbf269b03e3</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtdatavis3d.android_arm64_v8a</Name>
+  <DisplayName>Qt Data Visualization for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtdatavis3d, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtdatavis3d-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="524504" OS="Any" UncompressedSize="3554106"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtdatavis3d-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>6eda5928651eed4ec098a7cb16ec665f38b9319e</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtgraphs</Name>
+  <DisplayName>Qt Graphs</DisplayName>
+  <Description>Qt Graphs is a module which provides a way to visualize data in 3D. There are C++ classes and QML types for displaying bar graphs, scatter graphs, surface graphs and ways of manipulating the 3D scene. In addition, the graphs are fully customizable with different themes.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtgraphs, qt.qt6.681.examples.qtgraphs</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>29c342e175f297142eed0574b44726ffe317fe91</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtgraphs.android_arm64_v8a</Name>
+  <DisplayName>Qt Graphs for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtgraphs, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtgraphs-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="681737" OS="Any" UncompressedSize="4603799"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtgraphs-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>cf0f6f82bf832442a344675a523bceb567f50740</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtgrpc</Name>
+  <DisplayName>Qt Protobuf and Qt GRPC</DisplayName>
+  <Description>QtGrpc contains the two modules QtProtobuf and QtGrpc:&lt;br>QtProtobuf provides a generator which can be used to generate Qt-based classes from messages defined in .proto files.&lt;br>QtGrpc provides support for generating Qt-based clients and servers based on service description in .proto files, as well as communicating with gRPC services using QtProtobuf messages.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtgrpc, qt.qt6.681.examples.qtgrpc</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>778e02ef61f467b416df2c9957f1019d7ee7cc0e</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtgrpc.android_arm64_v8a</Name>
+  <DisplayName>Qt Protobuf and Qt GRPC for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtgrpc, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtgrpc-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="450812" OS="Any" UncompressedSize="4023671"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtgrpc-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>ff56e3d6817f95070bf097cb48661fb2c7069536</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qthttpserver</Name>
+  <DisplayName>Qt HTTP Server</DisplayName>
+  <Description>Qt HTTP Server supports building an HTTP server into an application.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <Dependencies>qt.qt6.681.doc.qthttpserver, qt.qt6.681.examples.qthttpserver, qt.qt6.681.addons.qtwebsockets</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>b90fbb1510be321382389aa20b2fb9007e97bc83</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qthttpserver.android_arm64_v8a</Name>
+  <DisplayName>Qt HTTP Server for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qthttpserver, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qthttpserver-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="74439" OS="Any" UncompressedSize="370281"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qthttpserver-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>5781056d4d57c282802c5f3ef34ceb863de2317c</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtimageformats</Name>
+  <DisplayName>Qt Image Formats</DisplayName>
+  <Description>The Qt Image Formats  provides optional support for other image file formats. The core Qt Gui library by default supports reading and writing image files of the most common file formats: PNG, JPEG, BMP, GIF and a few more.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtimageformats</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>2e24234ce536014a91c7b009e0f95c44f71dd9e0</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtimageformats.android_arm64_v8a</Name>
+  <DisplayName>Qt Image Formats for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtimageformats, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtimageformats-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="304287" OS="Any" UncompressedSize="1238529"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtimageformats-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>e2c5165621f82941342a06473b80afc382a8e470</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtlocation</Name>
+  <DisplayName>Qt Location (TP)</DisplayName>
+  <Description>Qt Location (TP).&lt;br>&lt;br>The release of Qt Location with Qt 6.8.1 is a Technology Preview.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtlocation, qt.qt6.681.examples.qtlocation</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>ab081e27fcc1b1ab762450c6c7f2afe71b9f211a</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtlocation.android_arm64_v8a</Name>
+  <DisplayName>Qt Location</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtlocation, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtlocation-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="544828" OS="Any" UncompressedSize="3852689"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtlocation-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>689a4ad2e48fb2fa2835af3c7004e6ab2a77db0b</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtlottie</Name>
+  <DisplayName>Qt Lottie Animation</DisplayName>
+  <Description>Qt Lottie Animation provides a QML API for rendering graphics and animations that are exported in JSON format by the Bodymovin plugin for Adobe After Effects.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtlottie</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>603f2f67d651611ea5337c82e4fa354132f7d1b0</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtlottie.android_arm64_v8a</Name>
+  <DisplayName>Qt Lottie Animation for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtlottie, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtlottie-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="114484" OS="Any" UncompressedSize="600943"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtlottie-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>5b65928aab1f980df2682e3700192f105a8c6c27</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtmultimedia</Name>
+  <DisplayName>Qt Multimedia</DisplayName>
+  <Description>Qt Multimedia provides a rich set of QML types and C++ classes to handle multimedia content.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtmultimedia, qt.qt6.681.examples.qtmultimedia</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>3aa31b2568f18a4684f48637937aed56df2a44b2</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtmultimedia.android_arm64_v8a</Name>
+  <DisplayName>Qt Multimedia for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtmultimedia, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtmultimedia-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="10700354" OS="Any" UncompressedSize="63037390"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtmultimedia-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>d572ce15fc65a0f4c617b0a24c8cf5f71ec4b668</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtnetworkauth</Name>
+  <DisplayName>Qt Network Authorization</DisplayName>
+  <Description>Qt Network Authorization provides a set of APIs that enable Qt applications to obtain limited access to online accounts and HTTP services without exposing users' passwords.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtnetworkauth, qt.qt6.681.examples.qtnetworkauth</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>f88daaae7b1eb94efbfe5d33640203432179a03d</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtnetworkauth.android_arm64_v8a</Name>
+  <DisplayName>Qt Network Authorization for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtnetworkauth, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtnetworkauth-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="69548" OS="Any" UncompressedSize="356365"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtnetworkauth-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>58fdf90325fc8cafa9d6a971263d7e57e01d2287</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtpositioning</Name>
+  <DisplayName>Qt Positioning</DisplayName>
+  <Description>The Qt Positioning API provides positioning information via QML and C++ interfaces.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtpositioning, qt.qt6.681.examples.qtpositioning</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>c3d8e24ffabd4383ec2dc4c642909e053e3beae7</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtpositioning.android_arm64_v8a</Name>
+  <DisplayName>Qt Positioning for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtpositioning, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtpositioning-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="332230" OS="Any" UncompressedSize="2160142"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtpositioning-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>7aaf874aa1c6bd33ca2cff6900e977dc047e5259</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtquick3d</Name>
+  <DisplayName>Qt Quick 3D</DisplayName>
+  <Description>Qt Quick 3D provides high-level 3D API for Qt Quick.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Dependencies>qt.qt6.681.doc.qtquick3d, qt.qt6.681.examples.qtquick3d, qt.qt6.681.addons.qtshadertools, qt.qt6.681.addons.qtquicktimeline</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>0861e332d54d662e669820c17c156b9655414569</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtquick3d.android_arm64_v8a</Name>
+  <DisplayName>Qt Quick 3D for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtquick3d, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <SortingPriority/>
+  <DownloadableArchives>qtquick3d-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="4695725" OS="Any" UncompressedSize="29315016"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtquick3d-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>9552b15913182f458601fa7d75463d0a5f37fe49</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtquick3dphysics</Name>
+  <DisplayName>Qt Quick 3D Physics</DisplayName>
+  <Description>Qt Quick 3D Physics provides a high-level QML module adding physical simulation capabilities to Qt Quick 3D.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Dependencies>qt.qt6.681.doc.qtquick3dphysics, qt.qt6.681.examples.qtquick3dphysics</Dependencies>
+  <Script>installscript.qs</Script>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>cd2c377bbdd7fe54a80f4f5816c0adcd30c28cb2</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtquick3dphysics.android_arm64_v8a</Name>
+  <DisplayName>Qt Quick 3D Physics for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtquick3dphysics, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtquick3dphysics-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="13720985" OS="Any" UncompressedSize="117122917"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtquick3dphysics-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>211e8227219395b300bf2e0d02a70578c49c29ef</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtquicktimeline</Name>
+  <DisplayName>Qt Quick Timeline</DisplayName>
+  <Description>The Qt Quick Timeline module enables keyframe-based animations and parameterization. It takes a tooling-friendly approach, and is therefore directly supported by Qt Design Studio and Qt Quick Designer that contain a timeline editor for creating keyframe based animations.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Dependencies>qt.qt6.681.doc.qtquicktimeline</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>2e12bd0eb2d3abd811fd9a8945d364c39d5fea56</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtquicktimeline.android_arm64_v8a</Name>
+  <DisplayName>Qt Quick Timeline for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtquicktimeline, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <SortingPriority/>
+  <DownloadableArchives>qtquicktimeline-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="64378" OS="Any" UncompressedSize="429397"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtquicktimeline-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>914426b797291b04d4b7de6fcd145f71de876a90</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtremoteobjects</Name>
+  <DisplayName>Qt Remote Objects</DisplayName>
+  <Description>Qt Remote Objects is an add-on library that provides an easy way to share Qt APIs between processes/devices.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtremoteobjects, qt.qt6.681.examples.qtremoteobjects</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>3827b06899864b8bafae902671c5b53438f29f09</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtremoteobjects.android_arm64_v8a</Name>
+  <DisplayName>Qt Remote Objects ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtremoteobjects, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtremoteobjects-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="239809" OS="Any" UncompressedSize="1401093"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtremoteobjects-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>c62e48232d65a8d57ac34d7fdf0ccc28ecf65b5f</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtscxml</Name>
+  <DisplayName>Qt State Machines</DisplayName>
+  <Description>The Qt State Machines package provides API's and execution models that can be used to effectively embed the elements and semantics of statecharts in Qt applications. For advanced use cases the state machines can even be created from State Chart XML (SCXML) files.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtscxml, qt.qt6.681.examples.qtscxml</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>7af10af0c97778b5717b4cd440376f437eee92b0</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtscxml.android_arm64_v8a</Name>
+  <DisplayName>Qt State Machine for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtscxml, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtscxml-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="340035" OS="Any" UncompressedSize="2355080"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtscxml-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>b747c1a1a8cad68d1995e6ac889be98e82426312</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtsensors</Name>
+  <DisplayName>Qt Sensors</DisplayName>
+  <Description>Qt Sensors provides classes for reading sensor data.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtsensors, qt.qt6.681.examples.qtsensors</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>e5cd1acc05d1f7efe6d1e53675a568ca18afced1</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtsensors.android_arm64_v8a</Name>
+  <DisplayName>Qt Sensors ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtsensors, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtsensors-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="178154" OS="Any" UncompressedSize="1457623"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtsensors-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>443af881d203d19302ba2bac7a95cd0f9b3f1084</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtserialbus</Name>
+  <DisplayName>Qt Serial Bus</DisplayName>
+  <Description>The Qt Serial Bus API provides classes and functions to access the various industrial serial buses and protocols, such as CAN, ModBus, and others.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtserialbus, qt.qt6.681.examples.qtserialbus</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>398219d25db040f64fd3e5f2f1f507eead3f0d22</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtserialbus.android_arm64_v8a</Name>
+  <DisplayName>Qt SerialBus ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtserialbus, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtserialbus-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="190468" OS="Any" UncompressedSize="1105621"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtserialbus-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>6993674a0670414843da94a8f62415ce0de47f35</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtserialport</Name>
+  <DisplayName>Qt Serial Port</DisplayName>
+  <Description>Qt Serial Port provides the basic functionality, which includes configuring, I/O operations, getting and setting the control signals of the RS-232 pinouts.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtserialport, qt.qt6.681.examples.qtserialport</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>f12d398aa83f4cfcda9dc12402bf086d830ca0df</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtserialport.android_arm64_v8a</Name>
+  <DisplayName>Qt SerialPort ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtserialport, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtserialport-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="56503" OS="Any" UncompressedSize="278288"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtserialport-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>03e1af002d742f4706075139c56aa157b23b11fa</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtshadertools</Name>
+  <DisplayName>Qt Shader Tools</DisplayName>
+  <Description>Qt Shader conditioning tool Prebuilt Components for Qt 6.8.1.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Dependencies>qt.qt6.681.doc.qtshadertools</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>3f3fdff5b31ae236cca6364cbbfae305b536d1a0</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtshadertools.android_arm64_v8a</Name>
+  <DisplayName>Qt Shader Tools for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtshadertools, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <SortingPriority/>
+  <DownloadableArchives>qtshadertools-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="974537" OS="Any" UncompressedSize="4200082"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtshadertools-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>d9ae562d6c2e474d3a6ee0546d48fefdea2f8a9f</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtspeech</Name>
+  <DisplayName>Qt Speech</DisplayName>
+  <Description>The Qt Speech module allows using text to speech engines</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <Dependencies>qt.qt6.681.doc.qtspeech, qt.qt6.681.examples.qtspeech</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>75a697562cb49f4e2560849a831dc8fc4405d1cb</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtspeech.android_arm64_v8a</Name>
+  <DisplayName>Qt Speech ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtspeech, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtspeech-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="101481" OS="Any" UncompressedSize="587158"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtspeech-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>9b94a12ff8083ad598423da1a59d0c7260b674cb</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtvirtualkeyboard</Name>
+  <DisplayName>Qt Virtual Keyboard</DisplayName>
+  <Description>The Qt Virtual Keyboard is a Qt Quick virtual keyboard that you can plug in to your platform or application. You can extend it with your ownlayouts and styles.&lt;br>&lt;br>This component is available under commercial licenses from The Qt Company, or under GPL v3. For open source use, please note the additional requirements compared to LGPL v3.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtvirtualkeyboard, qt.qt6.681.examples.qtvirtualkeyboard</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>416de69faeb7c39d663d5fa000a3823fcb54b558</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtvirtualkeyboard.android_arm64_v8a</Name>
+  <DisplayName>Qt Virtual Keyboard for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtvirtualkeyboard, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtvirtualkeyboard-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="2194457" OS="Any" UncompressedSize="6255371"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtvirtualkeyboard-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>662bd66281292668fd4306265c8a874112df6007</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtwebchannel</Name>
+  <DisplayName>Qt WebChannel</DisplayName>
+  <Description>Qt WebChannel enables peer-to-peer communication between a server (QML/C++ application) and a client (HTML/JavaScript or QML application). It is supported out of the box by Qt WebEngine. In addition it can work on all browsers that support WebSockets, enabling Qt WebChannel clients to run in any JavaScript environment (including QML). This requires the implementation of a custom transport based on Qt WebSockets.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtwebchannel, qt.qt6.681.examples.qtwebchannel</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>f98d62d38e919b150daa5cc3de07492208f43a25</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtwebchannel.android_arm64_v8a</Name>
+  <DisplayName>Qt WebChannel for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtwebchannel, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtwebchannel-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="97502" OS="Any" UncompressedSize="527331"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtwebchannel-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>3ab0b331bde3af6a3788d52c4361d7f364863243</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtwebsockets</Name>
+  <DisplayName>Qt WebSockets</DisplayName>
+  <Description>WebSocket is a web-based protocol designed to enable two-way communication between a client application and a remote host. It enables the two entities to send data back and forth if the initial handshake succeeds. WebSocket is the solution for applications that struggle to get real-time data feeds with less network latency and minimum data exchange.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtwebsockets, qt.qt6.681.examples.qtwebsockets</Dependencies>
+  <AutoDependOn/>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>42ad474e177a90233e43d781d5c1d58ba534fe70</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtwebsockets.android_arm64_v8a</Name>
+  <DisplayName>Qt WebSockets for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtwebsockets, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtwebsockets-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="94562" OS="Any" UncompressedSize="517961"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtwebsockets-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>27143b04203c013401988df8ea4476e88c6aebcf</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtwebview</Name>
+  <DisplayName>Qt WebView</DisplayName>
+  <Description>Qt WebView provides a way to display web content in a QML application without necessarily including a full web browser stack by using native APIs where it makes sense. This is useful on mobile platforms such as Android, iOS, and UWP (Universal Windows Platform); especially on iOS, where policy dictates that all web content is displayed using the operating system's web view. On Windows, Linux, and macOS, Qt WebView depends on the Qt WebEngine module to render content.</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Default>false</Default>
+  <SortingPriority/>
+  <Dependencies>qt.qt6.681.doc.qtwebview, qt.qt6.681.examples.qtwebview</Dependencies>
+  <AutoDependOn/>
+  <Script>installscript.qs</Script>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>62526cd59b68cca5670a856850802f4af54bf0d5</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.addons.qtwebview.android_arm64_v8a</Name>
+  <DisplayName>Qt WebView for Android ARM64-v8a</DisplayName>
+  <Description/>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <AutoDependOn>qt.qt6.681.addons.qtwebview, qt.qt6.681.android_arm64_v8a</AutoDependOn>
+  <Dependencies>qt.qt6.681.android_arm64_v8a</Dependencies>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority/>
+  <DownloadableArchives>qtwebview-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="105322" OS="Any" UncompressedSize="573494"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtwebview-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>905888e9afd74165c54d0b6f9830111b896178b0</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.android</Name>
+  <DisplayName>Android</DisplayName>
+  <Description>Qt 6.8.1 Prebuilt Components for Android armv7, arm64-v8a, x86 and x86_64</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Dependencies>qt.tools.qtcreator, qt.qt6.681.doc, qt.qt6.681.examples, qt.qt6.681.android_arm64_v8a, qt.qt6.681.android_armv7, qt.qt6.681.android_x86, qt.qt6.681.android_x86_64</Dependencies>
+  <AutoDependOn/>
+  <Default>false</Default>
+  <SortingPriority>270</SortingPriority>
+  <DownloadableArchives/>
+  <UpdateFile CompressedSize="0" OS="Any" UncompressedSize="0"/>
+  <SHA1>0ff11fe078159c9848a435614534d86901f99690</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.qt6.681.android_arm64_v8a</Name>
+  <DisplayName>Android ARM64-v8a</DisplayName>
+  <Description>Qt 6.8.1 Prebuilt Components for Android ARM64-v8a</Description>
+  <Version>6.8.1-0-202411221531</Version>
+  <ReleaseDate>2024-11-22</ReleaseDate>
+  <Dependencies>qt.tools.qtcreator, qt.qt6.681.doc, qt.qt6.681.examples, qt.qt6.681.patcher</Dependencies>
+  <AutoDependOn/>
+  <Virtual>true</Virtual>
+  <Script>installscript.qs</Script>
+  <SortingPriority>250</SortingPriority>
+  <DownloadableArchives>qtbase-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z, qtsvg-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z, qtdeclarative-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z, qttools-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z, qttranslations-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="48393227" OS="Any" UncompressedSize="389373430"/>
+  <Operations>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtbase-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtsvg-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qtdeclarative-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qttools-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+   <Operation name="Extract">
+    <Argument>@TargetDir@/6.8.1/android_arm64_v8a</Argument>
+    <Argument>qttranslations-MacOS-MacOS_13-Clang-Android-Android_ANY-ARM64.7z</Argument>
+   </Operation>
+  </Operations>
+  <SHA1>56f777d4e64a4855a467152856ed9ef9ef6450b4</SHA1>
+ </PackageUpdate>
+ <SHA1>78ab959865af2d60a7d9b46f73c8fb1c92036061</SHA1>
+ <MetadataName>2024-11-22-1534_meta.7z</MetadataName>
+</Updates>

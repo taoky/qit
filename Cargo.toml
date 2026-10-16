@@ -1,0 +1,25 @@
+[workspace]
+members = ["crates/qit-core", "crates/qit-cli", "crates/qit-gtk"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[workspace.dependencies]
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync", "signal"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+url = { version = "2", features = ["serde"] }
+sha2 = "0.10"
+sha1 = "0.10"
+hex = "0.4"
+scraper = "0.24"
+roxmltree = "0.20"
+semver = "1"
+clap = { version = "4", features = ["derive"] }
+qit-core = { path = "crates/qit-core" }
+

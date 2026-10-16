@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Qit
+Comment=A GTK installer for Qt
+Comment[zh_CN]=用 GTK 安装 Qt
+Exec=qit
+Icon=io.github.taoky.Qit
+Terminal=false
+Type=Application
+Categories=Development;PackageManager;
+StartupNotify=true

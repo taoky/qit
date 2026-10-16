@@ -1,0 +1,57 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>qt.tools.qtcreator</Name>
+  <DisplayName>Qt Creator 9.0.0</DisplayName>
+  <Description>IDE for Qt application development</Description>
+  <Version>9.0.0-0-202211220359</Version>
+  <ReleaseDate>2022-11-22</ReleaseDate>
+  <Script>installscript.qs</Script>
+  <Dependencies/>
+  <SortingPriority>1000</SortingPriority>
+  <ForcedInstallation>true</ForcedInstallation>
+  <DownloadableArchives>qtcreator.7z, qtcreator_sdktool.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="126569677" UncompressedSize="494884399" OS="Any"/>
+  <UserInterfaces>associatecommonfiletypesform.ui,launchqtcreatorcheckboxform.ui</UserInterfaces>
+  <Translations>de.qm,pt.qm,ar.qm,ja.qm,fr.qm,ru.qm,es.qm</Translations>
+  <SHA1>e2fd72a9f9115db1bd75f3fce73d8bfbc83ee7aa</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.tools.qtcreator.src</Name>
+  <DisplayName>Qt Creator 9.0.0 Src</DisplayName>
+  <Description>Qt Creator 9.0.0 Src</Description>
+  <Version>9.0.0-0-202211220359</Version>
+  <ReleaseDate>2022-11-22</ReleaseDate>
+  <Virtual>true</Virtual>
+  <SortingPriority>1000</SortingPriority>
+  <DownloadableArchives>qtcreator_src.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="48678378" UncompressedSize="186200750" OS="Any"/>
+  <SHA1>928f5227b3187157d107e52b3da407865a7c11e7</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.tools.qtcreatordbg</Name>
+  <DisplayName>Qt Creator 9.0.0 Debug Symbols</DisplayName>
+  <Description>Additional symbol files required to debug Qt Creator</Description>
+  <Version>9.0.0-0-202211220359</Version>
+  <ReleaseDate>2022-11-22</ReleaseDate>
+  <SortingPriority>994</SortingPriority>
+  <DownloadableArchives>qtcreator-debug.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="542129415" UncompressedSize="2551848472" OS="Any"/>
+  <SHA1>4ca0becfe60f5a5c620c91c2ee07da21d5ba3b2a</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>qt.tools.qtcreatordev</Name>
+  <DisplayName>Qt Creator 9.0.0 Plugin Development</DisplayName>
+  <Description>Headers and libs required to develop additional plugins</Description>
+  <Version>9.0.0-0-202211220359</Version>
+  <ReleaseDate>2022-11-22</ReleaseDate>
+  <SortingPriority>990</SortingPriority>
+  <DownloadableArchives>qtcreator_dev.7z</DownloadableArchives>
+  <UpdateFile CompressedSize="26537584" UncompressedSize="229002191" OS="Any"/>
+  <SHA1>13e35280af8d998850bf5845175803159d7b46b7</SHA1>
+ </PackageUpdate>
+ <SHA1>4cc7cb6b7e5cc84e1f441755d32fd3ad97f33d83</SHA1>
+ <MetadataName>2022-11-22-0425_meta.7z</MetadataName>
+</Updates>
