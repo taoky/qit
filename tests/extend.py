@@ -55,7 +55,8 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
 with tempfile.TemporaryDirectory(prefix='qit-extend-') as tmp:
-    tmp = Path(tmp)
+    # Match Qit's canonical journal paths (e.g. /var -> /private/var on macOS).
+    tmp = Path(tmp).resolve()
     server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     env = dict(os.environ, QIT_DATA_DIR=str(tmp / 'data'))

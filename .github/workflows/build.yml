@@ -45,16 +45,11 @@ jobs:
         run: |
           QIT_CLI="$PWD/target/release/qit-cli" python3 tests/protocol.py
           QIT_CLI="$PWD/target/release/qit-cli" python3 tests/extend.py
-      - name: Linux GUI smoke
-        if: runner.os == 'Linux'
-        run: |
-          for locale in en zh_CN; do
-            GDK_BACKEND=x11 GTK_A11Y=none QIT_TEST_LANGUAGE="$locale" python3 scripts/run-test-session.py xvfb-run -a -s '-screen 0 1280x1024x24' python3 tests/ui-smoke.py
-          done
-          QIT_DATA_DIR="$RUNNER_TEMP/qit-smoke" QIT_SMOKE_EXIT_SECONDS=3 python3 scripts/run-test-session.py xvfb-run -a target/release/qit
+      # Linux GUI smoke remains a local test: hosted runners deny bwrap UID mapping.
       - name: macOS GUI smoke
         if: runner.os == 'macOS'
         run: QIT_DATA_DIR="$RUNNER_TEMP/qit-smoke" QIT_SMOKE_EXIT_SECONDS=3 target/release/qit
+      - run: python3 tests/package.py
       - name: Package Linux
         if: runner.os == 'Linux'
         run: |
@@ -109,6 +104,7 @@ jobs:
         run: QIT_CLI="$(cygpath -m "$PWD/target/release/qit-cli.exe")" python tests/protocol.py
       - name: GUI smoke
         run: QIT_DATA_DIR="$(cygpath -m "$RUNNER_TEMP/qit-smoke")" QIT_SMOKE_EXIT_SECONDS=3 target/release/qit.exe
+      - run: python tests/package.py
       - name: Package
         run: python scripts/package.py --prefix "$(cygpath -m "$MINGW_PREFIX")"
       - uses: actions/upload-artifact@v4

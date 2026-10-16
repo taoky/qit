@@ -10,11 +10,12 @@ import plistlib
 import re
 import shutil
 import subprocess
+import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 
 def run(*args, **kwargs):
-    return subprocess.check_output(list(map(str, args)), text=True, **kwargs).strip()
+    return subprocess.check_output(list(map(str, args)), text=True, encoding="utf-8", **kwargs).strip()
 
 def copy(source, destination):
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -124,7 +125,9 @@ def main():
                 run("install_name_tool", "-id", "@rpath/" + destination.name, destination)
     for relative in ["glib-2.0/schemas", "icons/Adwaita", "icons/hicolor", "locale/zh_CN", "locale/en", "fontconfig"]:
         tree(prefix / "share" / relative, share_dir / relative)
-    tree(prefix / "etc/fonts", bundle / "etc/fonts")
+    # macOS app roots must contain only Contents; configuration is a resource.
+    config_dir = bundle / "Contents/Resources/etc" if system == "Darwin" else bundle / "etc"
+    tree(prefix / "etc/fonts", config_dir / "fonts")
     copy(ROOT / "data/io.github.taoky.Qit.svg", share_dir / "icons/hicolor/scalable/apps/io.github.taoky.Qit.svg")
     copy(ROOT / "LICENSE", share_dir / "doc/qit/LICENSE")
     copy(ROOT / "THIRD_PARTY.md", share_dir / "doc/qit/THIRD_PARTY.md")
@@ -177,7 +180,12 @@ def main():
         run("codesign", "--force", "--deep", "--sign", "-", bundle)
         run("hdiutil", "create", "-volname", "Qit", "-srcfolder", stage, "-ov", "-format", "UDZO", out / f"{label}.dmg")
     elif system == "Windows":
-        shutil.make_archive(str(out / label), "zip", stage)
+        # Dependency packages can carry timestamps outside ZIP's 1980–2107 range.
+        # Clamp archive metadata without changing the staged files' timestamps.
+        with zipfile.ZipFile(out / f"{label}.zip", "w", compression=zipfile.ZIP_DEFLATED,
+                             strict_timestamps=False) as archive:
+            for path in sorted(stage.rglob("*")):
+                archive.write(path, path.relative_to(stage))
     else:
         copy(ROOT / "data/io.github.taoky.Qit.desktop", bundle / "io.github.taoky.Qit.desktop")
         copy(ROOT / "data/io.github.taoky.Qit.svg", bundle / "io.github.taoky.Qit.svg")
