@@ -112,6 +112,20 @@ impl Network {
         Ok(())
     }
     pub async fn optional_text(&self, path: &str) -> Result<Option<String>> {
+        self.optional_text_with_timeout(path, Duration::from_secs(30))
+            .await
+    }
+    async fn optional_text_with_timeout(
+        &self,
+        path: &str,
+        timeout: Duration,
+    ) -> Result<Option<String>> {
+        let url = self.url(path)?;
+        tokio::time::timeout(timeout, self.read_optional_text(path))
+            .await
+            .with_context(|| format!("Metadata request timed out: {url}"))?
+    }
+    async fn read_optional_text(&self, path: &str) -> Result<Option<String>> {
         let mut response = self.response(&self.url(path)?, None).await?;
         if response.status() == StatusCode::NOT_FOUND {
             return Ok(None);
@@ -276,6 +290,7 @@ impl Network {
 pub fn verify(path: &Path, sum: &Checksum) -> Result<bool> {
     Ok(hash(path, &sum.algorithm)? == sum.value)
 }
+
 pub fn hash(path: &Path, algorithm: &str) -> Result<String> {
     let mut file = fs::File::open(path)?;
     let mut sha256 = Sha256::new();
@@ -297,4 +312,49 @@ pub fn hash(path: &Path, algorithm: &str) -> Result<String> {
     } else {
         hex::encode(sha1.finalize())
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::{net::TcpListener, sync::Arc, thread};
+
+    #[tokio::test]
+    async fn metadata_deadline_covers_headers_body_and_retry_wait() {
+        for response in [
+            "",
+            "HTTP/1.1 200 OK\r\nContent-Length: 100\r\n\r\npartial",
+            "HTTP/1.1 503 Service Unavailable\r\nRetry-After: 120\r\nContent-Length: 0\r\n\r\n",
+        ] {
+            let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+            let address = listener.local_addr().unwrap();
+            let server = thread::spawn(move || {
+                let (mut stream, _) = listener.accept().unwrap();
+                stream
+                    .set_read_timeout(Some(Duration::from_secs(5)))
+                    .unwrap();
+                let mut request = [0; 4096];
+                assert!(stream.read(&mut request).unwrap() > 0);
+                stream.write_all(response.as_bytes()).unwrap();
+                thread::sleep(Duration::from_millis(500));
+            });
+            let mut net = Network::new(
+                &format!("http://{address}/"),
+                Cancel::default(),
+                Arc::new(|_| {}),
+            )
+            .unwrap();
+            net.client = Client::builder().no_proxy().build().unwrap();
+            let error = net
+                .optional_text_with_timeout("Updates.xml", Duration::from_millis(200))
+                .await
+                .unwrap_err();
+            assert!(
+                error.to_string().contains("Metadata request timed out"),
+                "{error:#}"
+            );
+            assert!(error.to_string().contains("Updates.xml"));
+            server.join().unwrap();
+        }
+    }
 }

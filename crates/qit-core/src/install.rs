@@ -559,6 +559,21 @@ pub fn uninstall(id: &str, cancel: &Cancel, progress: &Progress) -> Result<Vec<S
         .find(|i| i.id == id)
         .context("Unknown installation")?;
     let root = &installation.path;
+    cancel.check()?;
+    // Check before locking: lock() creates the parent directory, which may
+    // itself have been deleted along with this installation.
+    match fs::symlink_metadata(root) {
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            fs::remove_file(
+                data_dir()
+                    .join("installations")
+                    .join(format!("{}.json", installation.id)),
+            )?;
+            return Ok(Vec::new());
+        }
+        Err(error) => return Err(error.into()),
+        Ok(_) => (),
+    }
     let _lock = lock(root.parent().context("Invalid installation root")?)?;
     ensure!(
         !fs::symlink_metadata(root)?.file_type().is_symlink(),

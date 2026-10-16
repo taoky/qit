@@ -104,6 +104,25 @@ fn margins(widget: &impl IsA<gtk::Widget>, n: i32) {
     widget.set_margin_start(n);
     widget.set_margin_end(n);
 }
+fn beginner_guidance(host: &str) -> String {
+    let tools = if host.starts_with("windows") {
+        tr(
+            "MinGW/LLVM-MinGW is installed when required. For MSVC, install Visual Studio or Build Tools with C++ tools and the Windows SDK separately.",
+        )
+    } else if host.starts_with("mac") {
+        tr("Install Xcode development tools separately.")
+    } else {
+        tr(
+            "Install GCC/G++ and other system development tools using your distribution’s package manager.",
+        )
+    };
+    format!(
+        "{} {tools}",
+        tr(
+            "New to Qt? Select a base development kit and enable “Install optional recommended components for me”."
+        )
+    )
+}
 fn notice(parent: &adw::ApplicationWindow, title: &str, text: &str) {
     let dialog = adw::AlertDialog::builder()
         .heading(title)
@@ -113,6 +132,10 @@ fn notice(parent: &adw::ApplicationWindow, title: &str, text: &str) {
     dialog.present(Some(parent));
 }
 fn build(app: &adw::Application) {
+    static RESOURCES: std::sync::Once = std::sync::Once::new();
+    RESOURCES.call_once(|| {
+        gio::resources_register_include!("qit.gresource").expect("embedded Qit resources");
+    });
     let settings_error;
     let saved = match Settings::load() {
         Ok(s) => {
@@ -129,8 +152,13 @@ fn build(app: &adw::Application) {
         .application(app)
         .title("Qit")
         .default_width(1050)
-        .default_height(760)
+        .default_height(960)
+        .width_request(1050)
+        .height_request(960)
         .build();
+    gtk::IconTheme::for_display(&WidgetExt::display(&window))
+        .add_resource_path("/io/github/taoky/Qit/icons");
+    gtk::Window::set_default_icon_name("io.github.taoky.Qit");
     let toolbar = adw::ToolbarView::new();
     let header = adw::HeaderBar::new();
     let title = adw::WindowTitle::new("Qit", tr("A GTK installer for Qt"));
@@ -141,6 +169,7 @@ fn build(app: &adw::Application) {
     toolbar.add_top_bar(&header);
     window.set_content(Some(&toolbar));
     let body = gtk::Box::new(gtk::Orientation::Horizontal, 0);
+    body.set_widget_name("main-body");
     let stack = gtk::Stack::builder()
         .hexpand(true)
         .vexpand(true)
@@ -151,7 +180,16 @@ fn build(app: &adw::Application) {
     sidebar.set_size_request(155, -1);
     body.append(&sidebar);
     body.append(&gtk::Separator::new(gtk::Orientation::Vertical));
-    body.append(&stack);
+    // Let long pages scroll instead of forcing the window to fit every label.
+    // This also isolates GtkBoxLayout from the stack's width-dependent height.
+    let pages = gtk::ScrolledWindow::builder()
+        .name("pages-scroll")
+        .hscrollbar_policy(gtk::PolicyType::Never)
+        .hexpand(true)
+        .vexpand(true)
+        .child(&stack)
+        .build();
+    body.append(&pages);
     toolbar.set_content(Some(&body));
 
     let snapshot = settings::mirrors();
@@ -203,6 +241,7 @@ fn build(app: &adw::Application) {
     explanation.set_xalign(0.0);
     settings_page.append(&explanation);
     let root = gtk::Entry::builder()
+        .hexpand(true)
         .text(
             saved
                 .install_root
@@ -211,7 +250,47 @@ fn build(app: &adw::Application) {
         )
         .build();
     settings_page.append(&gtk::Label::new(Some(tr("Installation directory"))));
-    settings_page.append(&root);
+    let directory_row = gtk::Box::new(gtk::Orientation::Horizontal, 8);
+    directory_row.append(&root);
+    let browse = gtk::Button::with_label(tr("Browse…"));
+    directory_row.append(&browse);
+    settings_page.append(&directory_row);
+    {
+        let window = window.clone();
+        let root = root.clone();
+        browse.connect_clicked(move |_| {
+            let dialog = gtk::FileDialog::builder()
+                .title(tr("Select installation directory"))
+                .modal(true)
+                .build();
+            let path = PathBuf::from(root.text().as_str());
+            // The default installation folder may not exist yet.
+            if let Some(folder) = path.ancestors().find(|p| p.is_dir()) {
+                dialog.set_initial_folder(Some(&gio::File::for_path(folder)));
+            }
+            let root = root.clone();
+            let parent = window.clone();
+            dialog.select_folder(Some(&window), None::<&gio::Cancellable>, move |result| {
+                match result {
+                    Ok(folder) => {
+                        if let Some(path) = folder.path() {
+                            root.set_text(&path.to_string_lossy());
+                        } else {
+                            notice(
+                                &parent,
+                                tr("Settings error"),
+                                tr("Choose a local directory."),
+                            );
+                        }
+                    }
+                    Err(error)
+                        if error.matches(gtk::DialogError::Dismissed)
+                            || error.matches(gtk::DialogError::Cancelled) => {}
+                    Err(error) => notice(&parent, tr("Settings error"), &error.to_string()),
+                }
+            });
+        });
+    }
     let save = gtk::Button::with_label(tr("Save settings"));
     save.set_halign(gtk::Align::Start);
     settings_page.append(&save);
@@ -339,14 +418,22 @@ fn build(app: &adw::Application) {
     retry.set_halign(gtk::Align::Start);
     install_page.append(&catalog_status);
     install_page.append(&retry);
-    let beginner_hint = gtk::Label::new(Some(tr(
-        "New to Qt? Select a base development kit and enable “Install optional recommended components for me”. System build tools must be installed separately.",
+    let beginner_hint = gtk::Label::new(Some(&beginner_guidance(
+        host_names[host.selected() as usize],
     )));
     beginner_hint.set_xalign(0.0);
     beginner_hint.set_wrap(true);
     beginner_hint.add_css_class("dim-label");
     beginner_hint.set_visible(target.selected() == 0);
     install_page.append(&beginner_hint);
+    {
+        let hint = beginner_hint.clone();
+        host.connect_selected_notify(move |dropdown| {
+            if let Some(host) = host_names.get(dropdown.selected() as usize) {
+                hint.set_text(&beginner_guidance(host));
+            }
+        });
+    }
     target.connect_selected_notify(move |dropdown| {
         beginner_hint.set_visible(dropdown.selected() == 0);
     });

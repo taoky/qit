@@ -67,6 +67,49 @@ fn install_page_workflow() {
         .downcast::<adw::ApplicationWindow>()
         .unwrap();
     until(|| !component_rows(&window).is_empty());
+    let theme = gtk::IconTheme::for_display(&WidgetExt::display(&window));
+    assert!(theme.has_icon("io.github.taoky.Qit"));
+    let icon = theme.lookup_icon(
+        "io.github.taoky.Qit",
+        &[],
+        128,
+        1,
+        gtk::TextDirection::None,
+        gtk::IconLookupFlags::empty(),
+    );
+    let file = icon.file().expect("application icon file");
+    assert!(file.uri().starts_with("resource://"));
+    let texture = gtk::gdk::Texture::from_file(&file).expect("application icon decodes");
+    assert_eq!((texture.width(), texture.height()), (128, 128));
+    let pages = widgets(&window)
+        .into_iter()
+        .find(|w| w.widget_name() == "pages-scroll")
+        .unwrap()
+        .downcast::<gtk::ScrolledWindow>()
+        .unwrap();
+    let adjustment = pages.vadjustment();
+    until(|| pages.height() > 0 && adjustment.upper() <= adjustment.page_size());
+    // Check the size advertised to the window manager; the widget allocation
+    // excludes decoration extents and is not the requested window size.
+    assert!(window.measure(gtk::Orientation::Horizontal, -1).0 >= 1050);
+    assert!(window.measure(gtk::Orientation::Vertical, 1050).0 >= 960);
+    assert!(adjustment.upper() <= adjustment.page_size());
+    let body = widgets(&window)
+        .into_iter()
+        .find(|w| w.widget_name() == "main-body")
+        .unwrap();
+    for width in [644, 1050, 1468] {
+        // Measure the layout directly: Widget::measure clamps invalid results
+        // after emitting a warning, which would hide this regression.
+        let (minimum, natural, _, _) =
+            body.layout_manager()
+                .unwrap()
+                .measure(&body, gtk::Orientation::Vertical, width);
+        assert!(
+            natural >= minimum,
+            "width {width}: min {minimum}, natural {natural}"
+        );
+    }
     let recommendations = widgets(&window)
         .into_iter()
         .filter_map(|w| w.downcast::<gtk::CheckButton>().ok())

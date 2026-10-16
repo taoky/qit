@@ -28,7 +28,8 @@ their respective runners. See [VALIDATION.md](VALIDATION.md) for the exact bound
 ## Build and run
 
 Use Rust 1.97.1 or newer, GTK >= 4.14, libadwaita >= 1.5, libarchive >= 3.6 and
-pkg-config. Runtime networking and archive extraction do not require Python,
+pkg-config, plus GLib's `glib-compile-resources` to embed the application icon.
+Runtime networking and archive extraction do not require Python,
 aqtinstall or a preinstalled Qt.
 
 Ubuntu 24.04 build dependencies:

@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import tarfile
@@ -127,6 +128,32 @@ with tempfile.TemporaryDirectory(prefix='qit-extend-') as tmp:
         assert (sdk / 'base.txt').read_text() == 'user edit'
         assert (sdk / 'user.txt').read_text() == 'user addition'
         assert not (sdk / 'addon.txt').exists()
+        shutil.rmtree(sdk)
+        for remove_parent in (False, True):
+            missing = json.loads(install('base').stdout)
+            record = tmp / 'data/installations' / f"{missing['id']}.json"
+            # A missing owner marker in an existing directory is still an error.
+            owner = sdk / '.qit-owner'
+            owner.unlink()
+            run(['uninstall', missing['id'], '--yes'], ok=False)
+            assert record.exists() and (sdk / 'base.txt').exists()
+            if os.name != 'nt':
+                # A dangling symlink must not be mistaken for a deleted directory.
+                shutil.rmtree(sdk)
+                sdk.symlink_to(tmp / 'nonexistent', target_is_directory=True)
+                run(['uninstall', missing['id'], '--yes'], ok=False)
+                assert record.exists() and sdk.is_symlink()
+                sdk.unlink()
+            else:
+                shutil.rmtree(sdk)
+            if remove_parent:
+                shutil.rmtree(root)
+            run(['uninstall', missing['id'], '--yes'])
+            assert not record.exists()
+            assert json.loads(run(['list']).stdout) == []
+            assert not sdk.exists()
+            if remove_parent:
+                assert not root.exists(), 'Removing a stale record must not recreate the SDK root'
         print('Component addition, cached reuse, conflicts, recovery and uninstall passed.')
     finally:
         server.shutdown()

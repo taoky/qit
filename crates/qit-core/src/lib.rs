@@ -6,7 +6,7 @@ pub mod settings;
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const USER_AGENT: &str = concat!("Qit/", env!("CARGO_PKG_VERSION"));
-pub const ISSUE_URL: &str = "https://qt-project.atlassian.net/browse/QTBUG-129057";
+pub const ISSUE_URL: &str = "https://github.com/taoky/qit/issues";
 
 use serde::{Deserialize, Serialize};
 use std::sync::{
