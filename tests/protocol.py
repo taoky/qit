@@ -10,9 +10,12 @@ import subprocess
 import tarfile
 import tempfile
 import threading
+import tomllib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = Path(__file__).resolve().parents[1]
+VERSION = tomllib.loads((ROOT / "Cargo.toml").read_text(encoding="utf-8"))["workspace"]["package"]["version"]
+USER_AGENT = f"Qit/{VERSION}"
 BIN = Path(os.environ.get("QIT_CLI", ROOT / "target/debug/qit-cli"))
 requests = []
 counts = {}
@@ -52,7 +55,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         requests.append((self.path, {key.lower(): value for key, value in self.headers.items()}))
-        if self.headers.get("User-Agent") != "Qit/0.1.0":
+        if self.headers.get("User-Agent") != USER_AGENT:
             return self.respond(403)
         parts = self.path.strip("/").split("/")
         mode = parts[0]
@@ -131,7 +134,7 @@ def main():
         assert not list((base / "安装 with spaces").glob(".qit-stage-*"))
         assert cli("list") == []
         assert any(headers.get("range") for path, headers in requests if path.startswith("/resume/"))
-        assert all(headers.get("user-agent") == "Qit/0.1.0" for _, headers in requests)
+        assert all(headers.get("user-agent") == USER_AGENT for _, headers in requests)
         assert len(requests) > 20
         print(f"PASS {len(requests)} HTTP requests used the exact product UA; no fallback requests")
     server.shutdown()

@@ -10,9 +10,12 @@ import subprocess
 import tarfile
 import tempfile
 import threading
+import tomllib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = Path(__file__).resolve().parents[1]
+VERSION = tomllib.loads((ROOT / "Cargo.toml").read_text(encoding="utf-8"))["workspace"]["package"]["version"]
+USER_AGENT = f"Qit/{VERSION}"
 BIN = Path(os.environ.get('QIT_CLI', ROOT / 'target/debug/qit-cli'))
 
 def archive(entries):
@@ -36,7 +39,7 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *args): pass
     def do_GET(self):
         requests.append(self.path)
-        assert self.headers.get('User-Agent') == 'Qit/0.1.0'
+        assert self.headers.get('User-Agent') == USER_AGENT
         if self.path == '/repo/Updates.xml':
             body = '<Updates>' + ''.join(
                 f'<PackageUpdate><Name>qt.qt6.681.{name}</Name><Version>6.8.1</Version>'
