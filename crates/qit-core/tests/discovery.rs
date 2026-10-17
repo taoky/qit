@@ -44,7 +44,12 @@ struct Fixture {
 impl Drop for Fixture {
     fn drop(&mut self) {
         self.stop.store(true, Ordering::Relaxed);
-        self.thread.take().unwrap().join().unwrap();
+        if let Some(server) = self.thread.take()
+            && let Err(error) = server.join()
+            && !thread::panicking()
+        {
+            std::panic::resume_unwind(error);
+        }
     }
 }
 impl Fixture {
@@ -62,6 +67,9 @@ impl Fixture {
                     thread::sleep(std::time::Duration::from_millis(2));
                     continue;
                 };
+                // Accepted sockets can inherit the listener's nonblocking mode.
+                // Only accept() needs polling; request reads must wait for data.
+                stream.set_nonblocking(false).unwrap();
                 stream
                     .set_read_timeout(Some(std::time::Duration::from_secs(2)))
                     .unwrap();
@@ -142,6 +150,25 @@ async fn listing_discovers_versions_and_nested_components() {
         1
     );
     assert_eq!(fixture.requests.lock().unwrap().len(), 4);
+}
+
+#[test]
+fn fixture_waits_for_fragmented_request_headers() {
+    let fixture = Fixture::new();
+    let url = url::Url::parse(&fixture.base).unwrap();
+    let mut stream = std::net::TcpStream::connect(("127.0.0.1", url.port().unwrap())).unwrap();
+    stream
+        .set_read_timeout(Some(std::time::Duration::from_secs(5)))
+        .unwrap();
+    stream
+        .write_all(b"GET /kit/Updates.xml HTTP/1.1\r\n")
+        .unwrap();
+    thread::sleep(std::time::Duration::from_millis(100));
+    stream.write_all(b"Host: localhost\r\n\r\n").unwrap();
+    let mut response = String::new();
+    stream.read_to_string(&mut response).unwrap();
+    assert!(response.starts_with("HTTP/1.1 200"));
+    assert!(response.contains("<Updates>"));
 }
 
 #[tokio::test]
