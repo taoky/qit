@@ -194,12 +194,13 @@ fn build(app: &adw::Application) {
 
     let snapshot = settings::mirrors();
     let mut mirror_names: Vec<String> = vec![tr("Choose a mirror…").into()];
-    mirror_names.extend(
-        snapshot
-            .mirrors
-            .iter()
-            .map(|m| format!("{} · {}", m.country, m.operator)),
-    );
+    mirror_names.extend(snapshot.mirrors.iter().map(|m| {
+        if m.url == "https://download.qt.io/" {
+            tr("Official (qt.io)").to_string()
+        } else {
+            format!("{} · {}", m.country, m.operator)
+        }
+    }));
     let mirrors =
         gtk::DropDown::from_strings(&mirror_names.iter().map(String::as_str).collect::<Vec<_>>());
     let mirror_url = gtk::Entry::builder()
@@ -235,11 +236,17 @@ fn build(app: &adw::Application) {
     settings_page.append(&mirrors);
     settings_page.append(&mirror_url);
     let explanation = gtk::Label::new(Some(tr(
-        "Bundled from MirrorZ, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.",
+        "MirrorZ mirrors and official qt.io, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.",
     )));
     explanation.set_wrap(true);
     explanation.set_xalign(0.0);
     settings_page.append(&explanation);
+    let catalog_explanation = gtk::Label::new(Some(tr(
+        "Version and component lists cannot be retrieved through the official API. Qit reads the selected download source’s directory instead.",
+    )));
+    catalog_explanation.set_wrap(true);
+    catalog_explanation.set_xalign(0.0);
+    settings_page.append(&catalog_explanation);
     let root = gtk::Entry::builder()
         .hexpand(true)
         .text(
@@ -785,10 +792,10 @@ fn build(app: &adw::Application) {
                                 // source archives with platform-specific line endings.
                                 if target_key != "tools" {
                                     let common_root = "online/qtsdkrepository/all_os/qt/";
-                                    if let Some(html) = net.optional_text(common_root).await? {
-                                        for name in
-                                            catalog::directories_at(&html, &net.url(common_root)?)
-                                        {
+                                    if let Some(names) =
+                                        qit_core::listing::directories(&net, common_root).await?
+                                    {
+                                        for name in names {
                                             if !presentation::common_repository(
                                                 &repo.name, &name, &host_key,
                                             ) {

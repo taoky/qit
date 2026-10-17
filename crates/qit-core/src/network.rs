@@ -11,6 +11,13 @@ use std::{
 };
 use url::Url;
 
+#[derive(Debug)]
+pub struct Metadata {
+    pub text: String,
+    pub url: Url,
+    pub content_type: String,
+}
+
 #[derive(Clone)]
 pub struct Network {
     pub base: Url,
@@ -67,6 +74,9 @@ impl Network {
         for attempt in 0..4 {
             self.cancel.check()?;
             let mut request = self.client.get(url.clone());
+            if url.path().ends_with('/') {
+                request = request.header(header::ACCEPT, "application/json, text/html;q=0.9");
+            }
             if let Some((offset, validator)) = range {
                 request = request
                     .header(header::RANGE, format!("bytes={offset}-"))
@@ -121,16 +131,29 @@ impl Network {
         timeout: Duration,
     ) -> Result<Option<String>> {
         let url = self.url(path)?;
-        tokio::time::timeout(timeout, self.read_optional_text(path))
+        tokio::time::timeout(timeout, self.read_metadata(path))
             .await
             .with_context(|| format!("Metadata request timed out: {url}"))?
+            .map(|value| value.map(|metadata| metadata.text))
     }
-    async fn read_optional_text(&self, path: &str) -> Result<Option<String>> {
+    pub async fn metadata(&self, path: &str) -> Result<Option<Metadata>> {
+        tokio::time::timeout(Duration::from_secs(30), self.read_metadata(path))
+            .await
+            .with_context(|| format!("Metadata request timed out: {}", self.base))?
+    }
+    async fn read_metadata(&self, path: &str) -> Result<Option<Metadata>> {
         let mut response = self.response(&self.url(path)?, None).await?;
         if response.status() == StatusCode::NOT_FOUND {
             return Ok(None);
         }
         response.error_for_status_ref()?;
+        let url = response.url().clone();
+        let content_type = response
+            .headers()
+            .get(header::CONTENT_TYPE)
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("")
+            .to_owned();
         let mut bytes = Vec::new();
         while let Some(chunk) = tokio::select! { result = response.chunk() => result?, _ = self.cancel.cancelled() => bail!("Cancelled") }
         {
@@ -141,7 +164,11 @@ impl Network {
             );
             bytes.extend_from_slice(&chunk);
         }
-        Ok(Some(String::from_utf8(bytes)?))
+        Ok(Some(Metadata {
+            text: String::from_utf8(bytes)?,
+            url,
+            content_type,
+        }))
     }
     pub async fn text(&self, path: &str) -> Result<String> {
         self.optional_text(path)

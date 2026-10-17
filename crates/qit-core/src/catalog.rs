@@ -43,22 +43,10 @@ pub fn host() -> &'static str {
     }
 }
 pub fn directories(html: &str) -> Vec<String> {
-    let doc = Html::parse_document(html);
-    let selector = Selector::parse("a[href]").unwrap();
-    let mut result = BTreeSet::new();
-    for link in doc.select(&selector) {
-        let href = link.value().attr("href").unwrap_or("");
-        if href.ends_with('/')
-            && href.len() > 1
-            && !href[..href.len() - 1].contains('/')
-            && !href.contains(['?', ':', '%', '\\'])
-            && href != "../"
-            && href != "./"
-        {
-            result.insert(href.trim_end_matches('/').to_owned());
-        }
-    }
-    result.into_iter().collect()
+    directories_at(
+        html,
+        &url::Url::parse("https://listing.invalid/directory/").unwrap(),
+    )
 }
 pub fn directories_at(html: &str, base: &url::Url) -> Vec<String> {
     let doc = Html::parse_document(html);
@@ -68,6 +56,9 @@ pub fn directories_at(html: &str, base: &url::Url) -> Vec<String> {
         let Some(href) = link.value().attr("href") else {
             continue;
         };
+        if href.contains(['%', '\\']) || href.split('/').any(|p| p == "..") {
+            continue;
+        }
         let Ok(url) = base.join(href) else {
             continue;
         };
@@ -82,7 +73,7 @@ pub fn directories_at(html: &str, base: &url::Url) -> Vec<String> {
             continue;
         };
         let name = relative.trim_end_matches('/');
-        if !name.is_empty() && !name.contains(['/', '%']) && safe_relative(name).is_ok() {
+        if crate::listing::valid_name(name) {
             result.insert(name.to_string());
         }
     }
@@ -90,8 +81,10 @@ pub fn directories_at(html: &str, base: &url::Url) -> Vec<String> {
 }
 pub async fn repositories(net: &Network, host: &str, target: &str) -> Result<Vec<Repository>> {
     for value in [host, target] {
-        safe_relative(value)?;
-        ensure!(!value.contains('/'), "Invalid repository group");
+        ensure!(
+            crate::listing::valid_name(value),
+            "Invalid repository group"
+        );
     }
     let hosts: Vec<&str> = match target {
         "wasm" | "qt" => vec!["all_os"],
@@ -101,15 +94,11 @@ pub async fn repositories(net: &Network, host: &str, target: &str) -> Result<Vec
     let mut result = Vec::new();
     for effective_host in hosts {
         let root = format!("online/qtsdkrepository/{effective_host}/{target}/");
-        if let Some(html) = net.optional_text(&root).await? {
-            result.extend(
-                directories_at(&html, &net.url(&root)?)
-                    .into_iter()
-                    .map(|name| Repository {
-                        path: format!("{root}{name}/"),
-                        name,
-                    }),
-            );
+        if let Some(names) = crate::listing::directories(net, &root).await? {
+            result.extend(names.into_iter().map(|name| Repository {
+                path: format!("{root}{name}/"),
+                name,
+            }));
         }
     }
     result.sort_by(|a, b| b.name.cmp(&a.name));
@@ -121,11 +110,20 @@ pub async fn repositories(net: &Network, host: &str, target: &str) -> Result<Vec
 }
 
 pub async fn packages(net: &Network, repository: &str) -> Result<Vec<Package>> {
+    ensure!(
+        repository
+            .trim_end_matches('/')
+            .split('/')
+            .all(crate::listing::valid_name),
+        "Invalid repository path"
+    );
     let root = format!("{}/", repository.trim_end_matches('/'));
     if let Some(xml) = net.optional_text(&format!("{root}Updates.xml")).await? {
         return parse(&xml, &root);
     }
-    let children = directories_at(&net.text(&root).await?, &net.url(&root)?);
+    let children = crate::listing::directories(net, &root)
+        .await?
+        .with_context(|| format!("No component metadata in {root}"))?;
     let mut result = Vec::new();
     for child in children {
         let path = format!("{root}{child}/");

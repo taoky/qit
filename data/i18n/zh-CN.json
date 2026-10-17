@@ -17,7 +17,6 @@
   "Android requires a compatible JDK/SDK/NDK; WebAssembly requires a matching Emscripten SDK. External dependencies are not installed by Qit.": "Android 开发需要兼容的 JDK、SDK 和 NDK；WebAssembly 开发需要匹配的 Emscripten SDK。这些外部依赖需要自行安装。",
   "Browse…": "浏览…",
   "Build for": "开发目标",
-  "Bundled from MirrorZ, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.": "列表取自 MirrorZ，随应用更新，默认选中教育网联合镜像站。该站通过重定向分配下载站点；Qit 使用你选择的服务。",
   "Cancel": "取消",
   "Cancelling": "正在取消",
   "Cannot read installations": "无法读取安装记录",
@@ -102,5 +101,8 @@
   "Wait for the operation to stop safely, then close the window.": "请等待操作安全停止后再关闭窗口。",
   "You can add components or uninstall an entire installation. Removing individual components is not supported.": "支持追加组件或卸载整个安装，暂不支持单独卸载组件。",
   "{count} new components selected · {size} MiB (before dependencies)": "已选 {count} 个新增组件 · {size} MiB（不含自动依赖）",
-  "{count} selected · {size} MiB (before dependencies)": "已选 {count} 项 · {size} MiB（不含自动依赖）"
+  "{count} selected · {size} MiB (before dependencies)": "已选 {count} 项 · {size} MiB（不含自动依赖）",
+  "Official (qt.io)": "官方 (qt.io)",
+  "MirrorZ mirrors and official qt.io, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.": "内置 MirrorZ 镜像站和 qt.io 官方源，默认选择教育网联合镜像站。教育网联合会重定向至镜像站；Qit 使用你选择的服务。",
+  "Version and component lists cannot be retrieved through the official API. Qit reads the selected download source’s directory instead.": "版本和组件列表无法通过官方 API 获取，Qit 会直接读取所选下载源的目录。"
 }

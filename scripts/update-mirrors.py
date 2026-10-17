@@ -22,12 +22,14 @@ def fetch(url):
 
 
 def collect(config, archive):
-    mirrors, missing = [DEFAULT.copy()], []
-    seen = {DEFAULT["url"]}
+    mirrors, missing = [DEFAULT.copy(), dict(country="", operator="官方 (qt.io)", url="https://download.qt.io/")], []
+    seen = {m["url"] for m in mirrors}
     # Read members directly: never extract an upstream archive to the filesystem.
     with tarfile.open(fileobj=io.BytesIO(archive), mode="r:gz") as tar:
         members = {m.name.split("/", 1)[-1]: m for m in tar.getmembers() if m.isfile()}
         for name in config["mirrors"]:
+            if name == "cqu":
+                continue
             member = members.get(f"data/{name}.json")
             if member is None:
                 missing.append(name)
@@ -47,7 +49,7 @@ def collect(config, archive):
                 if url not in seen:
                     mirrors.append(dict(country="China", operator=site["name"], url=url))
                     seen.add(url)
-    if len(mirrors) < 2:
+    if len(mirrors) < 3:
         raise ValueError("No Qt mirrors in MirrorZ data; refusing to replace the snapshot")
     return mirrors, missing
 

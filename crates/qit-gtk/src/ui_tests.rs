@@ -333,5 +333,13 @@ fn install_page_workflow() {
         mirror.is_sensitive(),
         "Editing a mirror must not start a request and lock Settings"
     );
+    let sources = dropdown(&window, "Choose a mirror…");
+    sources.set_selected(2);
+    assert_eq!(mirror.text(), "https://download.qt.io/");
+    button(&window, "Save settings").emit_clicked();
+    assert_eq!(
+        settings::Settings::load().unwrap().mirror.as_deref(),
+        Some("https://download.qt.io/")
+    );
     window.close();
 }

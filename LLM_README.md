@@ -17,9 +17,9 @@ and crash recovery. A real Qt 6.8.1 QtBase + ICU extraction has passed `qmake
 -query` and a CMake build/run linked against QtCore.
 
 **This is not yet a validated six-platform release.** The current execution
-environment denies listener sockets and isolated D-Bus sockets. Consequently the
-local HTTP integration suite and GUI smoke test could not run here. Windows,
-macOS, Android/WASM compilation and clean-system distribution tests still need
+sandbox restricts listener sockets; the local HTTP integration suite and isolated
+GTK smoke test passed with the required permissions. Windows/macOS runtime,
+Android/WASM compilation and clean-system distribution tests still need
 their respective runners. See [VALIDATION.md](VALIDATION.md) for the exact boundary.
 
 ## Build and run
@@ -104,8 +104,15 @@ original language. See [translation resources](data/i18n/README.md) to contribut
   and resumed downloads, use the same product UA. No telemetry is sent.
 - The bundled mirrors come from [MirrorZ](https://mirrors.cernet.edu.cn/list/qt),
   with 教育网联合镜像站 (`https://mirrors.cernet.edu.cn/qt/`) selected by default
-  when no saved mirror exists. Failures never silently switch to another mirror or the official
-  origin. HTTP redirects issued by the selected server are followed and logged.
+  when no saved mirror exists. Official (qt.io) is the second option; CQU is excluded
+  from the snapshot and refresh script. Download failures never silently switch to another
+  mirror or the official origin. HTTP redirects issued by the selected server are followed and logged.
+- Versions and components are discovered directly from the selected source's
+  directory listings and Updates.xml files. Direct leaf XML and parent repository
+  arguments are both supported. No official installer API or credentials are used.
+- Mirror directories support HTML, Caddy/nginx JSON content negotiation and ZJU's
+  `.mirror-index` without executing JavaScript. Redirected directory URLs resolve
+  links, but only safe immediate child names map back onto the selected mirror.
 - Four archives download concurrently, with bounded retries and cancellation.
   Resume requires a server validator and a valid Content-Range; otherwise the
   archive is restarted. SHA-256 is preferred, with SHA-1 accepted for historical
@@ -222,7 +229,7 @@ URLs (including TUNA’s multiple servers). It preserves paths such as USTC’s
 `qtproject`. Sites absent from the published snapshot are reported and recorded
 in `missing_sites`; this is not a live availability check. CERNET’s first entry
 is a redirect service that selects a downstream mirror. Existing saved choices
-are preserved.
+are preserved. Official qt.io stays second and CQU is deliberately excluded.
 
 Review the resulting `data/mirrors.json` diff before committing. The app never
 refreshes the list at startup. For offline regeneration, pass `--input` with the
@@ -250,3 +257,28 @@ To add components from the CLI, use `qit-cli install --add-components` with the
 same `--root` and `--name` as the existing installation, plus the repositories,
 new package IDs and `--accept-licenses`. This adds packages; it does not upgrade
 or remove installed ones. Close Qt tools before adding components.
+
+### Explicit discovery validation
+
+```sh
+cargo test --locked --workspace
+cargo test --locked -p qit-core --test catalog -- --ignored
+cargo clippy --locked --workspace --all-targets -- -D warnings
+cargo run --locked -p qit-core --example audit-mirrors > mirror-audit.json
+```
+
+The live mirror audit uses the shared snapshot and production Rust network/listing
+parser on every source. It covers all host directories, Android/WASM, shared
+sources, nested repositories and representative component XML. JSON output records
+time, final URLs, formats, package counts, expected parent XML 404s, optional missing
+directories and failures. Only connection/timeouts are marked skipped; HTTP errors
+and unrecognized pages fail. Captured listing fixtures live in `tests/fixtures/listing`.
+The local discovery fixture verifies content negotiation, redirects, mirror-index,
+parent/leaf component loading, malformed metadata and cancellation.
+
+Live verification on 2026-10-17: after removing CQU, all ten configured sources
+(including qt.io) passed the Rust listing/component audit. Each covered 19 parsed
+directories and 13 component XMLs, with Windows ARM64's missing Android directory
+recorded separately and shared Android supplied by `all_os`. Workspace, HTTP and
+isolated GTK fixture checks passed on Linux; this does not validate other OS
+runtimes or GNOME portal integration.

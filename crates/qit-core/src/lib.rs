@@ -1,6 +1,7 @@
 pub mod archive;
 pub mod catalog;
 pub mod install;
+pub mod listing;
 pub mod network;
 pub mod settings;
 

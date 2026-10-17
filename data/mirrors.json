@@ -21,9 +21,9 @@
       "url": "https://mirrors.cernet.edu.cn/qt/"
     },
     {
-      "country": "China",
-      "operator": "重庆大学开源软件镜像站",
-      "url": "https://mirrors.cqu.edu.cn/qt/"
+      "country": "",
+      "operator": "官方 (qt.io)",
+      "url": "https://download.qt.io/"
     },
     {
       "country": "China",

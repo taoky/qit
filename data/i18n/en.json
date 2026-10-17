@@ -17,7 +17,6 @@
   "Android requires a compatible JDK/SDK/NDK; WebAssembly requires a matching Emscripten SDK. External dependencies are not installed by Qit.": "Android requires a compatible JDK/SDK/NDK; WebAssembly requires a matching Emscripten SDK. External dependencies are not installed by Qit.",
   "Browse…": "Browse…",
   "Build for": "Build for",
-  "Bundled from MirrorZ, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.": "Bundled from MirrorZ, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.",
   "Cancel": "Cancel",
   "Cancelling": "Cancelling",
   "Cannot read installations": "Cannot read installations",
@@ -102,5 +101,8 @@
   "Wait for the operation to stop safely, then close the window.": "Wait for the operation to stop safely, then close the window.",
   "You can add components or uninstall an entire installation. Removing individual components is not supported.": "You can add components or uninstall an entire installation. Removing individual components is not supported.",
   "{count} new components selected · {size} MiB (before dependencies)": "{count} new components selected · {size} MiB (before dependencies)",
-  "{count} selected · {size} MiB (before dependencies)": "{count} selected · {size} MiB (before dependencies)"
+  "{count} selected · {size} MiB (before dependencies)": "{count} selected · {size} MiB (before dependencies)",
+  "Official (qt.io)": "Official (qt.io)",
+  "MirrorZ mirrors and official qt.io, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.": "MirrorZ mirrors and official qt.io, with CERNET selected by default. CERNET redirects downloads to a mirror; Qit uses your chosen service.",
+  "Version and component lists cannot be retrieved through the official API. Qit reads the selected download source’s directory instead.": "Version and component lists cannot be retrieved through the official API. Qit reads the selected download source’s directory instead."
 }
