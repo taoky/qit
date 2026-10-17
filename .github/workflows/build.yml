@@ -1,13 +1,33 @@
 name: Build and test
 on:
   push:
+    branches: ['**']
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 permissions:
   contents: read
 
 jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate release version
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 - <<'PY'
+          import os, pathlib, tomllib
+          version = tomllib.loads(pathlib.Path('Cargo.toml').read_text())['workspace']['package']['version']
+          expected = f'v{version}'
+          if os.environ['RELEASE_TAG'] != expected:
+              raise SystemExit(f'Release tag must match Cargo.toml: expected {expected}')
+          PY
+
   unix:
+    needs: validate
     strategy:
       fail-fast: false
       matrix:
@@ -66,6 +86,7 @@ jobs:
           if-no-files-found: error
 
   windows:
+    needs: validate
     strategy:
       fail-fast: false
       matrix:
@@ -112,3 +133,59 @@ jobs:
           name: qit-Windows-${{ matrix.arch }}
           path: dist/*
           if-no-files-found: error
+
+  release:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [unix, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    concurrency:
+      group: release-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: qit-*
+          path: dist
+          merge-multiple: true
+      - name: Verify assets and generate checksums
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          version = os.environ['RELEASE_TAG'][1:]
+          expected = {
+              f'Qit-{version}-{system}-{arch}.{extension}'
+              for system, extension in [('linux', 'AppImage'), ('darwin', 'dmg'), ('windows', 'zip')]
+              for arch in ['x86_64', 'aarch64']
+          }
+          folder = Path('dist')
+          actual = {p.name for p in folder.iterdir() if p.is_file()}
+          if actual != expected:
+              raise SystemExit(f'Unexpected release assets: missing={expected - actual}, extra={actual - expected}')
+          checksums = []
+          for name in sorted(expected):
+              with (folder / name).open('rb') as source:
+                  checksum = hashlib.file_digest(source, 'sha256').hexdigest()
+              checksums.append(f'{checksum}  {name}\n')
+          (folder / 'SHA256SUMS').write_text(''.join(checksums))
+          PY
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          prerelease=false
+          if [[ "$RELEASE_TAG" == *-* ]]; then
+            prerelease=true
+          fi
+          if ! gh release view "$RELEASE_TAG" > /dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --verify-tag --draft --generate-notes \
+              --title "Qit $RELEASE_TAG" --prerelease="$prerelease"
+          fi
+          gh release upload "$RELEASE_TAG" dist/* --clobber
+          gh release edit "$RELEASE_TAG" --draft=false --prerelease="$prerelease"

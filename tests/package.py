@@ -20,6 +20,7 @@ class PackagingTests(unittest.TestCase):
     def test_windows_zip_with_old_dependency_timestamps(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
+            (root / 'Cargo.toml').write_text('[workspace.package]\nversion = "0.2.0"\n', encoding='utf-8')
             prefix = root / 'native'
             for path in ['target/release/qit.exe', 'target/release/qit-cli.exe',
                          'data/io.github.taoky.Qit.svg', 'LICENSE', 'THIRD_PARTY.md',
@@ -46,7 +47,7 @@ class PackagingTests(unittest.TestCase):
                  patch.object(sys, 'argv', ['package.py', '--prefix', str(prefix)]):
                 package.main()
 
-            with zipfile.ZipFile(root / 'dist/Qit-0.1.0-windows-x86_64.zip') as archive:
+            with zipfile.ZipFile(root / 'dist/Qit-0.2.0-windows-x86_64.zip') as archive:
                 self.assertIsNone(archive.testzip())
                 self.assertEqual(archive.read('Qit/qit.exe'), b'fixture')
                 name = 'Qit/share/licenses/example/许可.txt'
@@ -56,7 +57,7 @@ class PackagingTests(unittest.TestCase):
                 self.assertTrue(empty.is_dir())
                 self.assertEqual(empty.date_time, (1980, 1, 1, 0, 0, 0))
                 self.assertTrue(all(name.startswith('Qit/') for name in archive.namelist()))
-            staged = root / '.build/Qit-0.1.0-windows-x86_64/Qit'
+            staged = root / '.build/Qit-0.2.0-windows-x86_64/Qit'
             self.assertEqual((staged / 'share/licenses/example/许可.txt').stat().st_mtime, 0)
             self.assertEqual((staged / 'share/licenses/empty').stat().st_mtime, 0)
 
@@ -69,6 +70,7 @@ class PackagingTests(unittest.TestCase):
     def test_macos_resources_stay_inside_contents(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
+            (root / 'Cargo.toml').write_text('[workspace.package]\nversion = "0.1.0"\n', encoding='utf-8')
             prefix = root / 'brew'
             for path in ['target/release/qit', 'target/release/qit-cli',
                          'data/io.github.taoky.Qit.svg', 'LICENSE', 'THIRD_PARTY.md',

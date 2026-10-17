@@ -24,6 +24,30 @@ their respective runners. See [VALIDATION.md](VALIDATION.md) for the exact bound
 
 ## Build and run
 
+### Publishing a release
+
+Set `[workspace.package].version` in `Cargo.toml`, update `Cargo.lock` with
+`cargo check --workspace`, and commit the version change together with the
+release workflow. Push a matching tag to build and publish:
+
+```sh
+git tag -a v0.1.0 -m "Qit 0.1.0"
+git push origin v0.1.0
+```
+
+Tag pushes matching `v*` publish a GitHub Release only after all six native
+builds succeed: Linux AppImage, macOS DMG and Windows ZIP, each for x86_64 and
+ARM64. The release includes `SHA256SUMS` and automatically generated release
+notes. Tags must match the Cargo version exactly, prefixed with `v`;
+versions such as `v0.2.0-rc.1` are marked as prereleases. Ordinary branch pushes,
+pull requests and manual workflow runs build artifacts without publishing.
+
+The workflow uses the built-in `GITHUB_TOKEN`; no additional token is needed.
+New releases remain drafts until all assets have uploaded. Rerunning the tag
+workflow reuses the release and replaces assets with matching names.
+
+### Local builds
+
 Use Rust 1.97.1 or newer, GTK >= 4.14, libadwaita >= 1.5, libarchive >= 3.6 and
 pkg-config, plus GLib's `glib-compile-resources` to embed the application icon.
 Runtime networking and archive extraction do not require Python,

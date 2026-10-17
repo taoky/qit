@@ -10,6 +10,7 @@ import plistlib
 import re
 import shutil
 import subprocess
+import tomllib
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,7 +64,7 @@ def main():
     args = parser.parse_args()
     system = platform.system()
     arch = {"AMD64": "x86_64", "arm64": "aarch64", "ARM64": "aarch64"}.get(platform.machine(), platform.machine())
-    version = "0.1.0"
+    version = tomllib.loads((ROOT / "Cargo.toml").read_text(encoding="utf-8"))["workspace"]["package"]["version"]
     label = f"Qit-{version}-{system.lower()}-{arch}"
     out = ROOT / "dist"
     out.mkdir(exist_ok=True)
