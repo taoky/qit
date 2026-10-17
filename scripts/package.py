@@ -197,6 +197,10 @@ APPDIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 export LD_LIBRARY_PATH="$APPDIR/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export XDG_DATA_DIRS="$APPDIR/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas"
+if [ "${1-}" = "--cli" ]; then
+    shift
+    exec "$APPDIR/usr/bin/qit-cli" "$@"
+fi
 exec "$APPDIR/usr/bin/qit" "$@"
 ''')
         launcher.chmod(0o755)

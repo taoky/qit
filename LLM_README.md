@@ -139,6 +139,22 @@ original language. See [translation resources](data/i18n/README.md) to contribut
 
 ## CLI
 
+Linux AppImages built from this revision support `--cli` as the first application
+argument (the published 0.1.0 AppImages do not have this launcher option):
+
+```sh
+chmod +x Qit-*.AppImage
+./Qit-<version>-linux-<arch>.AppImage --cli --help
+./Qit-<version>-linux-<arch>.AppImage --cli --mirror https://mirrors.ustc.edu.cn/qtproject/ repositories
+./Qit-<version>-linux-<arch>.AppImage --cli list
+```
+
+Replace the filename with the downloaded AppImage's actual name. No manual
+extraction or library-path configuration is needed. Without `--cli`, the
+AppImage starts the GUI. For the examples below, replace `qit-cli` with
+`./Qit-<version>-linux-<arch>.AppImage --cli` when using an AppImage.
+On systems without working FUSE, put `--appimage-extract-and-run` before `--cli`.
+
 Commands emit JSON on stdout. Progress and errors go to stderr; `--json` also
 makes progress events JSON. Ctrl-C requests cancellation.
 
