@@ -213,6 +213,14 @@ newer development distribution when targeting older systems.
 For packaging without network access, also pass `--runtime-file PATH` with a
 pre-downloaded AppImage type2 runtime of the matching architecture.
 
+Linux packaging uses the Ubuntu 24.04 CI baseline and requires
+`dconf-gsettings-backend`, `librsvg2-common`, `libgdk-pixbuf2.0-bin` and
+`libglib2.0-bin`. The AppImage includes the dconf backend and GdkPixbuf loaders
+with their native dependencies, so desktop font preferences and SVG icons work
+without relying on host modules. Its launcher generates a temporary loader
+cache for the current mount path and removes it on normal exit. Fontconfig uses
+the bundled configuration unless explicitly overridden by the user.
+
 The workflow uploads build artifacts; it does not publish releases. Dependency
 versions used by the runner are recorded in each bundle, while Cargo.lock pins
 Rust dependencies. MSYS2/Homebrew system dependency updates still need review.

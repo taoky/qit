@@ -18,6 +18,25 @@ spec.loader.exec_module(package)
 
 
 class PackagingTests(unittest.TestCase):
+    def test_linux_runtime_modules_required(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            gio, pixbuf, query = root / 'gio', root / 'loaders', root / 'query'
+            gio.mkdir()
+            pixbuf.mkdir()
+            (gio / 'libdconfsettings.so').touch()
+            query.touch()
+            variables = {'--variable=giomoduledir': str(gio),
+                         '--variable=gdk_pixbuf_moduledir': str(pixbuf),
+                         '--variable=gdk_pixbuf_query_loaders': str(query)}
+            with patch.object(package, 'run', side_effect=lambda *args: variables[args[1]]):
+                with self.assertRaisesRegex(RuntimeError, 'SVG loader'):
+                    package.linux_runtime_files()
+                (pixbuf / 'libpixbufloader-svg.so').touch()
+                files = package.linux_runtime_files()
+                self.assertEqual({source.name for source, _ in files},
+                                 {'libdconfsettings.so', 'libpixbufloader-svg.so', 'query'})
+
     @unittest.skipUnless(sys.platform.startswith('linux'), 'Linux AppRun shell launcher')
     def test_linux_launcher_dispatch(self):
         with tempfile.TemporaryDirectory(prefix='qit package ') as tmp:
@@ -32,18 +51,31 @@ class PackagingTests(unittest.TestCase):
                 file = root / 'target/release' / name
                 file.parent.mkdir(parents=True, exist_ok=True)
                 file.write_text(f'#!{sys.executable}\nimport json, os, sys\n'
+                                'if os.path.basename(sys.argv[0]) == "qit":\n'
+                                '    assert os.path.isfile(os.environ["GDK_PIXBUF_MODULE_FILE"])\n'
                                 'print(json.dumps(dict(binary=os.path.basename(sys.argv[0]), '
                                 'args=sys.argv[1:], libs=os.environ["LD_LIBRARY_PATH"])))\n'
                                 'sys.exit(23)\n')
                 file.chmod(0o755)
 
+            query = root / 'native/query'
+            query.parent.mkdir(parents=True)
+            query.write_text('#!/bin/sh\necho "fixture cache"\n')
+            query.chmod(0o755)
+            runtime_tmp = root / 'runtime tmp'
+            runtime_tmp.mkdir()
+
             def run(*args, **kwargs):
+                if args[0] == 'gio-querymodules': return ''
+                if args[0] in ('pacman', 'dpkg-query'):
+                    raise subprocess.CalledProcessError(1, args)
                 if args[:2] == ('rustc', '-vV'): return 'host: x86_64-unknown-linux-gnu'
                 if args[:2] == ('cargo', 'metadata'): return '{"packages": []}'
                 self.fail(f'Unexpected command: {args}')
 
             with patch.object(package, 'ROOT', root), \
                  patch.object(package.platform, 'machine', return_value='x86_64'), \
+                 patch.object(package, 'linux_runtime_files', return_value=[(query, 'usr/bin/gdk-pixbuf-query-loaders')]), \
                  patch.object(package, 'linux_dependencies', return_value=[]), \
                  patch.object(package, 'run', side_effect=run), \
                  patch.object(sys, 'argv', ['package.py', '--prefix', str(root / 'native')]):
@@ -61,12 +93,14 @@ class PackagingTests(unittest.TestCase):
                 for inherited in [None, '/existing/libs']:
                     with self.subTest(args=args, inherited=inherited):
                         env = dict(os.environ)
+                        env['TMPDIR'] = str(runtime_tmp)
                         env.pop('LD_LIBRARY_PATH', None)
                         if inherited is not None:
                             env['LD_LIBRARY_PATH'] = inherited
                         result = subprocess.run([app / 'AppRun', *args], env=env,
                                                 text=True, capture_output=True)
                         self.assertEqual(result.returncode, 23, result.stderr)
+                        self.assertEqual(list(runtime_tmp.iterdir()), [])
                         self.assertEqual(json.loads(result.stdout), dict(
                             binary=binary, args=forwarded,
                             libs=str(app / 'usr/lib') + (':' + inherited if inherited else '')))

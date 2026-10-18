@@ -38,6 +38,24 @@ def linux_dependencies(binary):
                 result.append(path)
     return result
 
+def linux_runtime_files():
+    """Modules loaded via dlopen are not present in ldd's dependency closure."""
+    gio_modules = Path(run("pkg-config", "--variable=giomoduledir", "gio-2.0"))
+    pixbuf_modules = Path(run("pkg-config", "--variable=gdk_pixbuf_moduledir", "gdk-pixbuf-2.0"))
+    query = Path(run("pkg-config", "--variable=gdk_pixbuf_query_loaders", "gdk-pixbuf-2.0"))
+    files = [(gio_modules / "libdconfsettings.so", "usr/lib/gio/modules/libdconfsettings.so"),
+             (query, "usr/bin/gdk-pixbuf-query-loaders")]
+    # Use the CI baseline's in-process SVG loader, not host image-loading services.
+    svg = pixbuf_modules / "libpixbufloader-svg.so"
+    if not svg.is_file():
+        raise RuntimeError("Missing GdkPixbuf SVG loader; build on Ubuntu 24.04 with librsvg2-common installed")
+    files.extend((p, f"usr/lib/gdk-pixbuf-loaders/{p.name}")
+                 for p in sorted(pixbuf_modules.glob("*.so")))
+    for source, _ in files:
+        if not source.is_file():
+            raise RuntimeError(f"Missing Linux runtime module/tool: {source}")
+    return files
+
 def mac_dependencies(binary):
     return [Path(line.strip().split(" (", 1)[0]) for line in run("otool", "-L", binary).splitlines()[1:]
             if line.strip().startswith(("/opt/", "/usr/local/"))]
@@ -100,6 +118,12 @@ def main():
         destination = bin_dir / (name + suffix)
         copy(source, destination)
         queue.append((source, destination))
+    if system == "Linux":
+        for source, relative in linux_runtime_files():
+            destination = bundle / relative
+            copy(source, destination)
+            queue.append((source, destination))
+            inventory[relative] = dict(source=str(source), sha256=hashlib.sha256(source.read_bytes()).hexdigest())
     processed = set()
     while queue:
         source, destination = queue.pop()
@@ -124,11 +148,14 @@ def main():
             run("install_name_tool", "-add_rpath", "@executable_path/../Frameworks", destination)
             if destination.suffix == ".dylib":
                 run("install_name_tool", "-id", "@rpath/" + destination.name, destination)
+    if system == "Linux":
+        run("gio-querymodules", lib_dir / "gio/modules")
     for relative in ["glib-2.0/schemas", "icons/Adwaita", "icons/hicolor", "locale/zh_CN", "locale/en", "fontconfig"]:
         tree(prefix / "share" / relative, share_dir / relative)
     # macOS app roots must contain only Contents; configuration is a resource.
     config_dir = bundle / "Contents/Resources/etc" if system == "Darwin" else bundle / "etc"
-    tree(prefix / "etc/fonts", config_dir / "fonts")
+    fonts_config = Path("/etc/fonts") if system == "Linux" and prefix == Path("/usr") else prefix / "etc/fonts"
+    tree(fonts_config, config_dir / "fonts")
     copy(ROOT / "data/io.github.taoky.Qit.svg", share_dir / "icons/hicolor/scalable/apps/io.github.taoky.Qit.svg")
     copy(ROOT / "LICENSE", share_dir / "doc/qit/LICENSE")
     copy(ROOT / "THIRD_PARTY.md", share_dir / "doc/qit/THIRD_PARTY.md")
@@ -197,11 +224,23 @@ APPDIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 export LD_LIBRARY_PATH="$APPDIR/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export XDG_DATA_DIRS="$APPDIR/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas"
+export GIO_MODULE_DIR="$APPDIR/usr/lib/gio/modules"
 if [ "${1-}" = "--cli" ]; then
     shift
     exec "$APPDIR/usr/bin/qit-cli" "$@"
 fi
-exec "$APPDIR/usr/bin/qit" "$@"
+# Keep the bundled Fontconfig paired with its configuration syntax, while
+# retaining explicit user overrides and the configured system font directories.
+export FONTCONFIG_PATH="${FONTCONFIG_PATH:-$APPDIR/etc/fonts}"
+export FONTCONFIG_FILE="${FONTCONFIG_FILE:-$APPDIR/etc/fonts/fonts.conf}"
+# Loader caches contain absolute paths. Generate one for this mount location,
+# without writing into the read-only AppImage or reusing a stale mount path.
+export GDK_PIXBUF_MODULEDIR="$APPDIR/usr/lib/gdk-pixbuf-loaders"
+GDK_PIXBUF_MODULE_FILE=$(mktemp "${TMPDIR:-/tmp}/qit-pixbuf-XXXXXX")
+export GDK_PIXBUF_MODULE_FILE
+trap 'rm -f "$GDK_PIXBUF_MODULE_FILE"' EXIT
+"$APPDIR/usr/bin/gdk-pixbuf-query-loaders" > "$GDK_PIXBUF_MODULE_FILE"
+"$APPDIR/usr/bin/qit" "$@"
 ''')
         launcher.chmod(0o755)
         if args.appimagetool:
