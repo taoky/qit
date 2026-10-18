@@ -52,6 +52,14 @@ Command-line usage is also supported. See the [LLM README](./LLM_README.md) for 
 
   A more intuitive interface.
 
+- Qit 本身不收集使用统计、不上报持久设备标识。
+
+  Qit itself does not collect usage statistics and persistent device ID.
+
+- 使用镜像站点时，Qit 不会对 qt.io 进行任何访问。
+
+  Qit does not access qt.io when selecting a mirror to use.
+
 ### 为什么使用 GTK？ / Why GTK?
 
 - 很好玩，不是吗？
