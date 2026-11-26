@@ -34,18 +34,30 @@ payloads = {
     'conflict': archive({'base.txt': b'conflicting module'}),
     'broken': b'not an archive',
 }
+desktop = 'online/qtsdkrepository/windows_x86/desktop'
+repo = f'{desktop}/qt6_681/'
+license_meta = archive({'qt.license.python/LICENSE.PYTHON': b'Python license fixture'})
 requests = []
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, *args): pass
     def do_GET(self):
         requests.append(self.path)
         assert self.headers.get('User-Agent') == USER_AGENT
-        if self.path == '/repo/Updates.xml':
+        if self.path == f'/{repo}Updates.xml':
             body = '<Updates>' + ''.join(
                 f'<PackageUpdate><Name>qt.qt6.681.{name}</Name><Version>6.8.1</Version>'
-                f'<DownloadableArchives>{name}.tar</DownloadableArchives></PackageUpdate>'
+                + ('<Dependencies>qt.license.python</Dependencies>' if name == 'addon' else '')
+                + f'<DownloadableArchives>{name}.tar</DownloadableArchives></PackageUpdate>'
                 for name in payloads) + '</Updates>'
             body = body.encode()
+        elif self.path == f'/{desktop}/licenses/Updates.xml':
+            body = f'''<Updates><PackageUpdate><Name>qt.license.python</Name>
+                <DisplayName>Python License</DisplayName><Version>2</Version><Virtual>true</Virtual>
+                <Licenses><License name="PSF" file="LICENSE.PYTHON"/></Licenses>
+                <SHA1>{hashlib.sha1(license_meta).hexdigest()}</SHA1>
+                </PackageUpdate></Updates>'''.encode()
+        elif self.path == f'/{desktop}/licenses/qt.license.python/2meta.7z':
+            body = license_meta
         else:
             name = self.path.split('/')[-2].split('.')[-1]
             data = payloads.get(name)
@@ -73,7 +85,7 @@ with tempfile.TemporaryDirectory(prefix='qit-extend-') as tmp:
         assert (result.returncode == 0) == ok, result.stdout + result.stderr
         return result
     def install(package, add=False, ok=True):
-        return run(['install', '--repo', 'repo/', '--root', str(root), '--name', 'sdk',
+        return run(['install', '--repo', repo, '--root', str(root), '--name', 'sdk',
                     '--accept-licenses', *(['--add-components'] if add else []),
                     f'qt.qt6.681.{package}'], ok)
     try:
@@ -87,7 +99,9 @@ with tempfile.TemporaryDirectory(prefix='qit-extend-') as tmp:
             (sdk / 'user-link').symlink_to(tmp / 'external')
         updated = json.loads(install('addon', add=True).stdout)
         assert updated['id'] == old['id']
-        assert {p['id'] for p in updated['plan']['packages']} == {'qt.qt6.681.base', 'qt.qt6.681.addon'}
+        assert {p['id'] for p in updated['plan']['packages']} == {
+            'qt.qt6.681.base', 'qt.qt6.681.addon', 'qt.license.python'}
+        assert updated['plan']['license_texts'] == {'Python License — PSF': 'Python license fixture'}
         assert (sdk / 'base.txt').read_text() == 'user edit'
         assert not (sdk / 'deleted.txt').exists()
         assert (sdk / 'user.txt').read_text() == 'user addition'

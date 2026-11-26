@@ -9,11 +9,13 @@ pub struct Repository {
     pub name: String,
     pub path: String,
 }
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Archive {
     pub path: String,
     pub destination: String,
 }
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
     pub id: String,
@@ -33,6 +35,7 @@ pub struct Package {
     #[serde(default)]
     pub metadata_sha1: String,
 }
+
 pub fn host() -> &'static str {
     match (std::env::consts::OS, std::env::consts::ARCH) {
         ("linux", "aarch64") => "linux_arm64",
@@ -42,12 +45,14 @@ pub fn host() -> &'static str {
         _ => "mac_x64",
     }
 }
+
 pub fn directories(html: &str) -> Vec<String> {
     directories_at(
         html,
         &url::Url::parse("https://listing.invalid/directory/").unwrap(),
     )
 }
+
 pub fn directories_at(html: &str, base: &url::Url) -> Vec<String> {
     let doc = Html::parse_document(html);
     let selector = Selector::parse("a[href]").unwrap();
@@ -79,6 +84,7 @@ pub fn directories_at(html: &str, base: &url::Url) -> Vec<String> {
     }
     result.into_iter().collect()
 }
+
 pub async fn repositories(net: &Network, host: &str, target: &str) -> Result<Vec<Repository>> {
     for value in [host, target] {
         ensure!(
@@ -134,6 +140,7 @@ pub async fn packages(net: &Network, repository: &str) -> Result<Vec<Package>> {
     ensure!(!result.is_empty(), "No component metadata in {root}");
     Ok(result)
 }
+
 pub fn parse(xml: &str, repository: &str) -> Result<Vec<Package>> {
     let doc = roxmltree::Document::parse(xml).context("Invalid Updates.xml")?;
     ensure!(
@@ -210,7 +217,18 @@ pub fn parse(xml: &str, repository: &str) -> Result<Vec<Package>> {
                 })
             })
             .collect::<Result<Vec<_>>>()?;
-        let supported_family = (id == "qt.tools" && archives.is_empty())
+        let license_files: Vec<_> = node
+            .descendants()
+            .filter(|n| n.has_tag_name("License"))
+            .filter_map(|n| n.attribute("file"))
+            .map(String::from)
+            .collect();
+        let license_only = id.starts_with("qt.license.")
+            && field("Virtual") == "true"
+            && archives.is_empty()
+            && !license_files.is_empty();
+        let supported_family = license_only
+            || (id == "qt.tools" && archives.is_empty())
             || id.starts_with("qt.qt5.515")
             || id.starts_with("qt.qt6.")
             || compiler_repository(&id).is_some()
@@ -254,12 +272,7 @@ pub fn parse(xml: &str, repository: &str) -> Result<Vec<Package>> {
                         .to_string()
                 })
                 .collect(),
-            license_files: node
-                .descendants()
-                .filter(|n| n.has_tag_name("License"))
-                .filter_map(|n| n.attribute("file"))
-                .map(String::from)
-                .collect(),
+            license_files,
             metadata_sha1: field("SHA1"),
         });
     }
@@ -275,6 +288,7 @@ pub struct Plan {
     #[serde(default)]
     pub license_texts: BTreeMap<String, String>,
 }
+
 fn dependency(dep: &str) -> (&str, Option<&str>) {
     if let Some((id, _)) = dep.split_once("-!=") {
         return (id, Some(&dep[id.len() + 1..]));
@@ -286,6 +300,7 @@ fn dependency(dep: &str) -> (&str, Option<&str>) {
     }
     (dep, None)
 }
+
 fn compiler_repository(id: &str) -> Option<String> {
     for (prefix, repository) in [
         ("qt.tools.win64_llvm_mingw", "tools_llvm_mingw"),
@@ -306,8 +321,10 @@ fn optional_recommendation(id: &str) -> bool {
         || id.contains(".doc")
         || id.contains(".examples")
 }
+
 #[derive(Debug)]
 struct MissingDependency(String);
+
 impl std::fmt::Display for MissingDependency {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "Missing dependency {}; load its repository too", self.0)
@@ -509,27 +526,20 @@ pub async fn prepare_plan_with_recommendations(
                 let Some(missing) = error.downcast_ref::<MissingDependency>() else {
                     return Err(error);
                 };
-                let compiler_repo = compiler_repository(&missing.0);
-                if missing.0 != "qt.tools"
-                    && compiler_repo.is_none()
-                    && (!include_recommendations || !optional_recommendation(&missing.0))
-                {
-                    return Err(error);
-                }
-                let mut candidates = if let Some(repository) = compiler_repo {
+                let desktop_repo = match missing.0.as_str() {
+                    "qt.tools" => Some("tools_generic".to_string()),
+                    id if id.starts_with("qt.license.") => Some("licenses".to_string()),
+                    id => compiler_repository(id),
+                };
+                let mut candidates = if let Some(repository) = desktop_repo {
                     vec![Repository {
                         path: format!(
                             "online/qtsdkrepository/{selected_host}/desktop/{repository}/"
                         ),
                         name: repository,
                     }]
-                } else if missing.0 == "qt.tools" {
-                    vec![Repository {
-                        name: "tools_generic".into(),
-                        path: format!(
-                            "online/qtsdkrepository/{selected_host}/desktop/tools_generic/"
-                        ),
-                    }]
+                } else if !include_recommendations || !optional_recommendation(&missing.0) {
+                    return Err(error);
                 } else if missing.0.starts_with("qt.tools.qtcreator") {
                     repositories(net, &selected_host, "desktop")
                         .await?
