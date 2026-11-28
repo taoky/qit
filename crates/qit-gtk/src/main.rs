@@ -3,6 +3,7 @@
 mod i18n;
 mod presentation;
 use i18n::{tr, tr_args};
+use presentation::display_path;
 
 use adw::prelude::*;
 use gtk::{gio, glib};
@@ -457,7 +458,7 @@ fn build(app: &adw::Application) {
         .child(&component_list)
         .build();
     install_page.append(&scroll);
-    let destination = gtk::Label::new(Some(tr("Install to")));
+    let destination = gtk::Label::new(Some(tr("Installation folder name")));
     destination.set_xalign(0.0);
     let name = gtk::Entry::builder()
         .placeholder_text(tr("Installation folder name"))
@@ -648,7 +649,7 @@ fn build(app: &adw::Application) {
                 .map(|(id, _)| id.clone())
                 .collect::<Vec<_>>();
             if selected.is_empty()
-                || !presentation::valid_folder(root.text().as_str(), name.text().as_str())
+                || presentation::install_folder(root.text().as_str(), name.text().as_str()).is_err()
             {
                 return;
             }
@@ -853,8 +854,9 @@ fn build(app: &adw::Application) {
             cancel_tick.set_visible(active);
             progress_tick.set_visible(active);
             retry.set_sensitive(!active);
-            let path = PathBuf::from(root.text().as_str()).join(name.text().as_str());
-            let owner = std::fs::read_to_string(path.join(".qit-owner")).ok();
+            let folder = presentation::install_folder(root.text().as_str(), name.text().as_str());
+            let path = folder.as_ref().ok();
+            let owner = path.and_then(|p| std::fs::read_to_string(p.join(".qit-owner")).ok());
             let record_stamp = owner
                 .as_ref()
                 .filter(|id| qit_core::archive::safe_relative(id).is_ok() && !id.contains('/'))
@@ -868,7 +870,7 @@ fn build(app: &adw::Application) {
                 })
                 .map(|meta| (meta.modified().ok(), meta.len()));
             let context = (
-                path.clone(),
+                path.cloned(),
                 owner,
                 record_stamp,
                 generation.get(),
@@ -876,7 +878,9 @@ fn build(app: &adw::Application) {
             );
             if !active && selection_context.as_ref() != Some(&context) {
                 let previous = std::mem::take(&mut installed_ids);
-                if let Ok(Some(existing)) = install::at_path(&path) {
+                if let Some(path) = path
+                    && let Ok(Some(existing)) = install::at_path(path)
+                {
                     installed_ids.extend(existing.plan.packages.into_iter().map(|p| p.id));
                 }
                 for (id, check) in choices.borrow().iter() {
@@ -944,24 +948,27 @@ fn build(app: &adw::Application) {
                     ("size", &format!("{:.1}", size as f64 / 1048576.0)),
                 ],
             ));
-            let valid = presentation::valid_folder(root.text().as_str(), name.text().as_str());
-            full_path.set_text(&format!(
-                "{}{}",
-                path.display(),
-                if valid && install::managed_destination(&path) {
-                    tr(" · Additional components will be added to this installation")
-                } else if valid {
-                    ""
-                } else {
-                    tr(" · Choose a new, valid folder")
+            match &folder {
+                Ok(path) => {
+                    let display = display_path(path);
+                    let suffix = if install::managed_destination(path) {
+                        tr(" · Additional components will be added to this installation")
+                    } else {
+                        ""
+                    };
+                    full_path.set_text(&format!("{display}{suffix}"));
+                    full_path.set_tooltip_text(Some(&display));
                 }
-            ));
-            full_path.set_tooltip_text(Some(&path.to_string_lossy()));
+                Err(message) => {
+                    full_path.set_text(tr(message));
+                    full_path.set_tooltip_text(None);
+                }
+            }
             review_tick.set_sensitive(
                 !active
                     && pending.get().is_none()
                     && !selected.is_empty()
-                    && valid
+                    && folder.is_ok()
                     && (selected.iter().any(|id| !installed_ids.contains(id))
                         || recommendations.is_active()),
             );
@@ -1183,7 +1190,7 @@ fn confirm(
     let size: u64 = plan.packages.iter().map(|p| p.compressed_size).sum();
     let text = format!(
         "{}\n{}\n\n{}\n\n{}",
-        root.join(&name).display(),
+        display_path(&root.join(&name)),
         plan.mirror,
         plan.packages
             .iter()
@@ -1313,7 +1320,7 @@ fn render_installed(list: &gtk::ListBox, window: &adw::ApplicationWindow, worker
             for item in items {
                 let row = adw::ActionRow::builder()
                     .title(item.path.file_name().unwrap_or_default().to_string_lossy())
-                    .subtitle(item.path.to_string_lossy())
+                    .subtitle(display_path(&item.path))
                     .build();
                 let open = gtk::Button::from_icon_name("folder-open-symbolic");
                 open.set_valign(gtk::Align::Center);
@@ -1349,7 +1356,7 @@ fn render_installed(list: &gtk::ListBox, window: &adw::ApplicationWindow, worker
                     remove.connect_clicked(move |_| {
                         let dialog = adw::AlertDialog::builder()
                             .heading(tr("Uninstall this entire Qt installation?"))
-                            .body(item.path.to_string_lossy())
+                            .body(display_path(&item.path))
                             .build();
                         dialog.add_response("cancel", tr("Cancel"));
                         dialog.add_response("remove", tr("Uninstall"));

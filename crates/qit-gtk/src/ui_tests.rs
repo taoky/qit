@@ -195,6 +195,16 @@ fn install_page_workflow() {
                 .is_some_and(|s| s == tr("Installation folder name"))
         })
         .unwrap();
+    // Pasting the installed SDK's absolute path must not select it as a folder name.
+    folder.set_text(sdk.to_str().unwrap());
+    until(|| {
+        !check.is_active()
+            && !next.is_sensitive()
+            && widgets(&window).into_iter().any(|w| {
+                w.downcast::<gtk::Label>()
+                    .is_ok_and(|label| label.text() == tr("Enter a folder name without the path."))
+            })
+    });
     folder.set_text("another-sdk");
     until(|| !check.is_active() && check.is_sensitive());
     folder.set_text("qt-6.8.1-desktop");

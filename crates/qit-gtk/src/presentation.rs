@@ -1,4 +1,5 @@
 use qit_core::catalog::{Package, Repository};
+use std::path::{Path, PathBuf};
 
 pub fn repository_name(repo: &Repository) -> String {
     if let Some((series, code)) = repo.name.split_once('_') {
@@ -115,23 +116,122 @@ pub fn folder_name_for_host(repo: &Repository, target: &str, host: &str) -> Stri
     format!("{base}-{suffix}")
 }
 
-pub fn valid_folder(root: &str, name: &str) -> bool {
-    !root.trim().is_empty()
-        && !name.is_empty()
-        && !name.starts_with('.')
-        && !name.contains('/')
-        && qit_core::archive::safe_relative(name).is_ok()
-        && {
-            let path = std::path::Path::new(root).join(name);
-            std::fs::symlink_metadata(&path)
-                .is_err_and(|e| e.kind() == std::io::ErrorKind::NotFound)
-                || qit_core::install::managed_destination(&path)
+pub fn display_path(path: &Path) -> std::borrow::Cow<'_, str> {
+    #[cfg(windows)]
+    if let Some(text) = path.to_str()
+        && let Some(display) = ordinary_windows_path(text)
+    {
+        return display.into();
+    }
+    path.to_string_lossy()
+}
+
+#[cfg(any(windows, test))]
+fn ordinary_windows_path(path: &str) -> Option<String> {
+    let verbatim = path.strip_prefix(r"\\?\")?;
+    let (display, components) = if let Some(unc) = verbatim.strip_prefix(r"UNC\") {
+        let (server, share_path) = unc.split_once('\\')?;
+        if server.is_empty() || share_path.split('\\').next()?.is_empty() {
+            return None;
         }
+        (format!(r"\\{unc}"), unc)
+    } else {
+        let (drive, tail) = verbatim.split_once(r":\")?;
+        if drive.len() != 1 || !drive.as_bytes()[0].is_ascii_alphabetic() {
+            return None;
+        }
+        (verbatim.to_owned(), tail)
+    };
+
+    // Keep verbatim syntax when ordinary Win32 parsing could change the target.
+    if display.encode_utf16().count() >= 260 {
+        return None;
+    }
+    let components = components.strip_suffix('\\').unwrap_or(components);
+    if !components.is_empty() && !components.split('\\').all(ordinary_windows_component) {
+        return None;
+    }
+    Some(display)
+}
+
+#[cfg(any(windows, test))]
+fn ordinary_windows_component(name: &str) -> bool {
+    if name.is_empty()
+        || name.ends_with([' ', '.'])
+        || name.contains(['/', ':', '*', '?', '"', '<', '>', '|'])
+        || name.chars().any(char::is_control)
+    {
+        return false;
+    }
+    let stem = name
+        .split('.')
+        .next()
+        .unwrap_or(name)
+        .trim_end_matches(' ')
+        .to_ascii_uppercase();
+    if matches!(
+        stem.as_str(),
+        "CON" | "PRN" | "AUX" | "NUL" | "CONIN$" | "CONOUT$"
+    ) {
+        return false;
+    }
+    let port = stem
+        .strip_prefix("COM")
+        .or_else(|| stem.strip_prefix("LPT"));
+    !matches!(
+        port,
+        Some("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "¹" | "²" | "³")
+    )
+}
+
+pub fn install_folder(root: &str, name: &str) -> Result<PathBuf, &'static str> {
+    if root.trim().is_empty() {
+        return Err("Choose an installation directory in Settings.");
+    }
+    if name.starts_with('.')
+        || name.contains('/')
+        || qit_core::archive::safe_relative(name).is_err()
+    {
+        return Err("Enter a folder name without the path.");
+    }
+    let path = Path::new(root).join(name);
+    if std::fs::symlink_metadata(&path).is_err_and(|e| e.kind() == std::io::ErrorKind::NotFound)
+        || qit_core::install::managed_destination(&path)
+    {
+        Ok(path)
+    } else {
+        Err("Choose a new folder name or an existing Qit installation.")
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn verbatim_paths_only_simplify_when_win32_can_represent_them() {
+        assert_eq!(
+            ordinary_windows_path(r"\\?\D:\qt\qt-creator-21").as_deref(),
+            Some(r"D:\qt\qt-creator-21")
+        );
+        assert_eq!(
+            ordinary_windows_path(r"\\?\UNC\nas\shared\Qt").as_deref(),
+            Some(r"\\nas\shared\Qt")
+        );
+        for path in [
+            r"\\?\Volume{guid}\Qt",
+            r"\\?\D:\qt\trailing.",
+            r"\\?\D:\qt\NUL.txt",
+            r"\\?\D:\COM¹\Qt",
+            r"\\?\UNC\nas\shared\..\Qt",
+        ] {
+            assert!(ordinary_windows_path(path).is_none(), "{path}");
+        }
+        // Traditional Win32 paths must fit 260 UTF-16 code units including NUL.
+        let path = format!(r"\\?\D:\{}", "🦀".repeat(128));
+        assert!(ordinary_windows_path(&path).is_some());
+        assert!(ordinary_windows_path(&format!("{path}x")).is_none());
+    }
+
     #[test]
     fn version_names_and_directory_validation() {
         for (raw, expected) in [
@@ -149,9 +249,9 @@ mod tests {
                 expected
             );
         }
-        assert!(!valid_folder("/tmp", "../escape"));
-        assert!(!valid_folder("/tmp", "."));
-        assert!(!valid_folder("", "qt"));
+        assert!(install_folder("/tmp", "../escape").is_err());
+        assert!(install_folder("/tmp", ".").is_err());
+        assert!(install_folder("", "qt").is_err());
     }
     #[test]
     fn shared_repositories_match_exact_version_and_line_endings() {
